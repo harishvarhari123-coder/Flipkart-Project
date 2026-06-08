@@ -1,0 +1,691 @@
+import { useState, useRef, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FiSearch, FiShoppingCart, FiChevronDown, FiUser, FiPackage, FiHeart, FiLogOut } from 'react-icons/fi';
+import { useAuth } from '../../context/AuthContext';
+import { useCart } from '../../context/CartContext';
+import { useWishlist } from '../../context/WishlistContext';
+import './Navbar.css';
+
+export default function Navbar() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [searchFocused, setSearchFocused] = useState(false);
+  const { user, isAuthenticated, logout } = useAuth();
+  const { cartCount } = useCart();
+  const { wishlistItems } = useWishlist();
+  const navigate = useNavigate();
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery('');
+    }
+  };
+
+  const handleLogout = () => {
+    logout();
+    setShowDropdown(false);
+    navigate('/');
+  };
+
+  return (
+    <nav className="navbar">
+      {/* Animated top accent line */}
+      <div className="navbar-accent-line" />
+
+      <div className="navbar-inner">
+        {/* Logo */}
+        <Link to="/" className="navbar-logo">
+          <span className="navbar-logo-text">Harikart</span>
+          <span className="navbar-logo-tagline">
+            Delve Deeper
+            <span className="navbar-logo-plus"> Plus</span>
+            <span className="navbar-logo-star">⭐</span>
+          </span>
+        </Link>
+
+        {/* Search */}
+        <form
+          className={`navbar-search${searchFocused ? ' navbar-search--focused' : ''}`}
+          onSubmit={handleSearch}
+        >
+          <FiSearch className="navbar-search-icon-left" />
+          <input
+            type="text"
+            placeholder="Search products, brands and more…"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => setSearchFocused(true)}
+            onBlur={() => setSearchFocused(false)}
+          />
+          <button type="submit" className="navbar-search-btn">
+            Search
+          </button>
+        </form>
+
+        {/* Actions */}
+        <div className="navbar-actions">
+          {isAuthenticated ? (
+            <div className="navbar-user" ref={dropdownRef}>
+              <button
+                className="navbar-user-btn"
+                onClick={() => setShowDropdown(!showDropdown)}
+              >
+                <span className="navbar-user-avatar">
+                  {user?.name?.charAt(0).toUpperCase()}
+                </span>
+                <span className="navbar-user-name">{user?.name?.split(' ')[0]}</span>
+                <FiChevronDown className={`navbar-chevron${showDropdown ? ' navbar-chevron--open' : ''}`} />
+              </button>
+
+              {showDropdown && (
+                <div className="navbar-dropdown">
+                  <div className="navbar-dropdown-header">
+                    <div className="navbar-dropdown-greeting">
+                      <span className="navbar-dropdown-hi">Hello, {user?.name?.split(' ')[0]}!</span>
+                      <span className="navbar-dropdown-sub">New here?{' '}
+                        <Link to="/register" onClick={() => setShowDropdown(false)}>Sign Up</Link>
+                      </span>
+                    </div>
+                  </div>
+                  <div className="navbar-dropdown-body">
+                    <Link to="/profile" className="navbar-dropdown-item" onClick={() => setShowDropdown(false)}>
+                      <span className="navbar-dropdown-icon"><FiUser /></span>
+                      <span>My Profile</span>
+                      <span className="navbar-dropdown-arrow">›</span>
+                    </Link>
+                    <Link to="/orders" className="navbar-dropdown-item" onClick={() => setShowDropdown(false)}>
+                      <span className="navbar-dropdown-icon"><FiPackage /></span>
+                      <span>Orders</span>
+                      <span className="navbar-dropdown-arrow">›</span>
+                    </Link>
+                    <Link to="/wishlist" className="navbar-dropdown-item" onClick={() => setShowDropdown(false)}>
+                      <span className="navbar-dropdown-icon"><FiHeart /></span>
+                      <span>Wishlist</span>
+                      {wishlistItems.length > 0 && (
+                        <span className="navbar-dropdown-badge">{wishlistItems.length}</span>
+                      )}
+                    </Link>
+                  </div>
+                  <div className="navbar-dropdown-footer">
+                    <div className="navbar-dropdown-item navbar-dropdown-logout" onClick={handleLogout}>
+                      <span className="navbar-dropdown-icon"><FiLogOut /></span>
+                      <span>Logout</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <button className="navbar-login-btn" onClick={() => navigate('/login')}>
+              <FiUser />
+              <span>Login</span>
+            </button>
+          )}
+
+          <Link to="/cart" className="navbar-cart">
+            <FiShoppingCart />
+            <span>Cart</span>
+            {cartCount > 0 && <span className="navbar-cart-badge">{cartCount}</span>}
+          </Link>
+        </div>
+      </div>
+    </nav>
+  );
+}
+=====================================================CSS============================================================/* ============================================================
+   NAVBAR — Harikart Premium Dark Theme
+   ============================================================ */
+
+/* --- Accent line at top --- */
+.navbar-accent-line {
+  height: 3px;
+  background: linear-gradient(90deg, #6366f1, #3b82f6, #06b6d4, #10b981, #6366f1);
+  background-size: 300% 100%;
+  animation: accentShift 6s linear infinite;
+}
+
+@keyframes accentShift {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+/* --- Root navbar bar --- */
+.navbar {
+  background: linear-gradient(160deg, #09111f 0%, #0f1e33 60%, #0c1a2e 100%);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.05),
+    0 8px 32px rgba(0, 0, 0, 0.45);
+}
+
+/* --- Inner layout --- */
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 0 28px;
+  height: 72px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   LOGO
+   ============================================================ */
+.navbar-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-shrink: 0;
+  gap: 1px;
+  text-decoration: none;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.navbar-logo:hover {
+  transform: translateY(-1px);
+  opacity: 0.92;
+}
+
+.navbar-logo-text {
+  font-family: 'Syne', 'Poppins', sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(120deg, #e2e8f0 0%, #93c5fd 55%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.15;
+}
+
+.navbar-logo-tagline {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: rgba(148, 163, 184, 0.75);
+}
+
+.navbar-logo-plus {
+  color: #93c5fd;
+  font-weight: 800;
+}
+
+.navbar-logo-star {
+  font-size: 9px;
+}
+
+/* ============================================================
+   SEARCH BAR
+   ============================================================ */
+.navbar-search {
+  flex: 1;
+  max-width: 580px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-search-icon-left {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(148, 163, 184, 0.6);
+  font-size: 16px;
+  pointer-events: none;
+  transition: color 0.2s;
+  z-index: 1;
+}
+
+.navbar-search input {
+  width: 100%;
+  padding: 11px 110px 11px 44px;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  font-size: 13.5px;
+  color: #e2e8f0;
+  transition: all 0.25s ease;
+  outline: none;
+}
+
+.navbar-search input::placeholder {
+  color: rgba(148, 163, 184, 0.5);
+  font-size: 13px;
+}
+
+.navbar-search--focused input {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(99, 102, 241, 0.6);
+  box-shadow:
+    0 0 0 3px rgba(99, 102, 241, 0.15),
+    0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-search--focused .navbar-search-icon-left {
+  color: #818cf8;
+}
+
+.navbar-search-btn {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, #4f46e5, #3b82f6);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 18px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.35);
+}
+
+.navbar-search-btn:hover {
+  background: linear-gradient(135deg, #5b52f0, #4f90f9);
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.5);
+  transform: translateY(-50%) scale(1.03);
+}
+
+/* ============================================================
+   ACTIONS
+   ============================================================ */
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+/* --- Login button --- */
+.navbar-login-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  color: #0f172a;
+  border: none;
+  padding: 9px 22px;
+  font-weight: 700;
+  font-size: 13.5px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 3px 10px rgba(255, 255, 255, 0.08);
+  letter-spacing: 0.2px;
+}
+
+.navbar-login-btn:hover {
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.18);
+}
+
+.navbar-login-btn:active {
+  transform: translateY(0);
+}
+
+/* --- User button --- */
+.navbar-user {
+  position: relative;
+}
+
+.navbar-user-btn {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #e2e8f0;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 8px 16px 8px 8px;
+  cursor: pointer;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  transition: all 0.22s ease;
+}
+
+.navbar-user-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+/* Avatar circle */
+.navbar-user-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  font-size: 13px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.4);
+}
+
+.navbar-user-name {
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.navbar-chevron {
+  color: rgba(148, 163, 184, 0.7);
+  font-size: 14px;
+  transition: transform 0.25s ease;
+}
+
+.navbar-chevron--open {
+  transform: rotate(180deg);
+}
+
+/* ============================================================
+   DROPDOWN
+   ============================================================ */
+.navbar-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: #111c2d;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.5),
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  min-width: 230px;
+  z-index: 200;
+  overflow: hidden;
+  animation: dropIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dropIn {
+  from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Dropdown header */
+.navbar-dropdown-header {
+  padding: 16px 18px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.12), rgba(59, 130, 246, 0.08));
+}
+
+.navbar-dropdown-greeting {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.navbar-dropdown-hi {
+  font-size: 14px;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+
+.navbar-dropdown-sub {
+  font-size: 12px;
+  color: rgba(148, 163, 184, 0.7);
+}
+
+.navbar-dropdown-sub a {
+  color: #60a5fa;
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 2px;
+  transition: color 0.15s;
+}
+
+.navbar-dropdown-sub a:hover {
+  color: #93c5fd;
+}
+
+/* Dropdown body items */
+.navbar-dropdown-body {
+  padding: 6px 0;
+}
+
+.navbar-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 18px;
+  color: rgba(203, 213, 225, 0.85);
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  text-decoration: none;
+  position: relative;
+}
+
+.navbar-dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #f1f5f9;
+}
+
+.navbar-dropdown-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: rgba(99, 102, 241, 0.12);
+  color: #818cf8;
+  font-size: 15px;
+  flex-shrink: 0;
+  transition: background 0.18s;
+}
+
+.navbar-dropdown-item:hover .navbar-dropdown-icon {
+  background: rgba(99, 102, 241, 0.22);
+}
+
+.navbar-dropdown-arrow {
+  margin-left: auto;
+  color: rgba(148, 163, 184, 0.35);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.navbar-dropdown-badge {
+  margin-left: auto;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 7px;
+  border-radius: 20px;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* Dropdown footer (logout) */
+.navbar-dropdown-footer {
+  padding: 6px 0 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.navbar-dropdown-logout {
+  color: rgba(248, 113, 113, 0.85) !important;
+}
+
+.navbar-dropdown-logout .navbar-dropdown-icon {
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+}
+
+.navbar-dropdown-logout:hover {
+  background: rgba(239, 68, 68, 0.08) !important;
+  color: #fca5a5 !important;
+}
+
+.navbar-dropdown-logout:hover .navbar-dropdown-icon {
+  background: rgba(239, 68, 68, 0.18);
+}
+
+/* ============================================================
+   CART BUTTON
+   ============================================================ */
+.navbar-cart {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #e2e8f0;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 9px 20px;
+  cursor: pointer;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  text-decoration: none;
+}
+
+.navbar-cart svg {
+  color: #60a5fa;
+  font-size: 17px;
+  transition: transform 0.25s ease;
+}
+
+.navbar-cart:hover {
+  background: rgba(99, 102, 241, 0.12);
+  border-color: rgba(99, 102, 241, 0.35);
+  color: #f1f5f9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.2);
+}
+
+.navbar-cart:hover svg {
+  transform: rotate(-8deg) scale(1.1);
+  color: #818cf8;
+}
+
+.navbar-cart:active {
+  transform: translateY(0);
+}
+
+.navbar-cart-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.45);
+  border: 2px solid #09111f;
+  animation: badgePop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes badgePop {
+  from { transform: scale(0); }
+  to   { transform: scale(1); }
+}
+
+/* ============================================================
+   RESPONSIVE — MOBILE
+   ============================================================ */
+@media (max-width: 768px) {
+  .navbar-accent-line {
+    height: 2px;
+  }
+
+  .navbar-inner {
+    flex-wrap: wrap;
+    padding: 10px 16px 12px;
+    gap: 10px;
+    height: auto;
+  }
+
+  .navbar-logo {
+    flex: 1;
+  }
+
+  .navbar-logo-text {
+    font-size: 22px;
+  }
+
+  .navbar-search {
+    order: 3;
+    max-width: 100%;
+    flex-basis: 100%;
+  }
+
+  .navbar-search-btn {
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+
+  .navbar-actions {
+    gap: 8px;
+  }
+
+  .navbar-login-btn {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .navbar-user-btn {
+    padding: 7px 12px 7px 7px;
+  }
+
+  .navbar-user-name {
+    display: none;
+  }
+
+  .navbar-cart span {
+    display: none;
+  }
+
+  .navbar-cart {
+    padding: 9px 12px;
+  }
+
+  .navbar-cart-badge {
+    top: -4px;
+    right: -4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-logo-tagline {
+    display: none;
+  }
+}

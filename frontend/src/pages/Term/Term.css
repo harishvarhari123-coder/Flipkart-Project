@@ -1,0 +1,344 @@
+/* =============================================
+   HARIKART — Terms of Use Page Styles
+   ============================================= */
+
+   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&display=swap');
+
+   * {
+     box-sizing: border-box;
+     margin: 0;
+     padding: 0;
+   }
+   
+   body {
+     background-color: #f0ede8;
+     font-family: 'Source Serif 4', 'Georgia', serif;
+     color: #1a1a2e;
+   }
+   
+   /* ─── PAGE WRAPPER ─────────────────────────── */
+   .terms-wrapper {
+     max-width: 900px;
+     margin: 0 auto;
+     padding: 0 24px 80px;
+   }
+   
+   /* ─── HEADER BLOCK (dark navy section) ─────── */
+   .terms-header {
+     background-color: #1a1a2e;
+     color: #ffffff;
+     padding: 0 24px;
+     margin: 0 -24px;
+   }
+   
+   .terms-header-inner {
+     max-width: 900px;
+     margin: 0 auto;
+     padding: 40px 0 0;
+   }
+   
+   /* ─── BRAND TAG  "—— HARIKART" ──────────────── */
+   .brand-tag {
+     display: inline-flex;
+     align-items: center;
+     gap: 10px;
+     font-family: 'Source Serif 4', serif;
+     font-size: 12px;
+     font-weight: 600;
+     letter-spacing: 4px;
+     text-transform: uppercase;
+     color: #c8a96e;           /* gold */
+     margin-bottom: 22px;
+   }
+   
+   .brand-tag::before {
+     content: '';
+     display: inline-block;
+     width: 32px;
+     height: 1.5px;
+     background-color: #c8a96e;
+   }
+   
+   /* ─── MAIN HEADING "Terms of Use" ───────────── */
+   .terms-title {
+     font-family: 'Playfair Display', serif;
+     font-size: clamp(32px, 5vw, 52px);
+     font-weight: 700;
+     line-height: 1.12;
+     color: #ffffff;
+     letter-spacing: -0.5px;
+     margin-bottom: 18px;
+   }
+   
+   /* ─── SUBTITLE (italic) ─────────────────────── */
+   .terms-subtitle {
+     font-family: 'Source Serif 4', serif;
+     font-size: 15px;
+     font-style: italic;
+     font-weight: 300;
+     color: rgba(255, 255, 255, 0.55);
+     letter-spacing: 0.2px;
+     line-height: 1.6;
+     padding-bottom: 30px;
+     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+   }
+   
+   /* ─── META ROW (Effective Date · Governed By · Jurisdiction) */
+   .terms-meta {
+     display: flex;
+     align-items: center;
+     flex-wrap: wrap;
+     gap: 20px;
+     padding: 22px 0 28px;
+   }
+   
+   .meta-item {
+     font-family: 'Source Serif 4', serif;
+     font-size: 11.5px;
+     font-weight: 400;
+     letter-spacing: 1px;
+     text-transform: uppercase;
+     color: rgba(255, 255, 255, 0.45);
+   }
+   
+   .meta-item strong {
+     color: rgba(255, 255, 255, 0.75);
+     font-weight: 700;
+     margin-right: 4px;
+   }
+   
+   /* bullet dot between meta items */
+   .meta-dot {
+     width: 4px;
+     height: 4px;
+     border-radius: 50%;
+     background-color: rgba(255, 255, 255, 0.25);
+     flex-shrink: 0;
+   }
+   
+   /* ─── DISCLAIMER BAR (gold left border) ─────── */
+   .disclaimer-bar {
+     background-color: #fff8ec;
+     border-left: 3px solid #c8a96e;
+     margin: 36px 0 32px;
+     padding: 14px 20px;
+     border-radius: 0 4px 4px 0;
+   }
+   
+   .disclaimer-bar p {
+     font-family: 'Source Serif 4', serif;
+     font-size: 13.5px;
+     font-style: italic;
+     color: #7a6030;
+     line-height: 1.65;
+   }
+   
+   .disclaimer-bar strong {
+     font-style: normal;
+     font-weight: 700;
+     color: #5a4520;
+   }
+   
+   /* ─── TABLE OF CONTENTS ──────────────────────── */
+   .toc-block {
+     background: #ffffff;
+     border: 1px solid #e4ddd3;
+     border-radius: 6px;
+     padding: 28px 32px;
+     margin-bottom: 32px;
+   }
+   
+   .toc-label {
+     font-family: 'Source Serif 4', serif;
+     font-size: 11px;
+     font-weight: 600;
+     letter-spacing: 3px;
+     text-transform: uppercase;
+     color: #aaa;
+     margin-bottom: 18px;
+   }
+   
+   .toc-grid {
+     display: grid;
+     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+     gap: 2px 24px;
+   }
+   
+   .toc-link {
+     font-family: 'Source Serif 4', serif;
+     font-size: 14px;
+     color: #1a1a2e;
+     text-decoration: none;
+     padding: 7px 0;
+     border-bottom: 1px dotted #ddd;
+     display: flex;
+     align-items: center;
+     gap: 10px;
+     cursor: pointer;
+     transition: color 0.18s ease;
+   }
+   
+   .toc-link:hover {
+     color: #c8a96e;
+   }
+   
+   .toc-num {
+     font-size: 11px;
+     font-weight: 700;
+     color: #ccc;
+     min-width: 22px;
+   }
+   
+   /* ─── ACCORDION SECTIONS ─────────────────────── */
+   .sections-container {
+     margin-top: 8px;
+   }
+   
+   .section-block {
+     background: #ffffff;
+     border: 1px solid #e4ddd3;
+     border-radius: 6px;
+     margin-bottom: 3px;
+     overflow: hidden;
+     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+   }
+   
+   .section-block.active {
+     border-color: #c8a96e;
+     box-shadow: 0 2px 18px rgba(200, 169, 110, 0.10);
+   }
+   
+   .section-header {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     padding: 20px 28px;
+     cursor: pointer;
+     user-select: none;
+     transition: background 0.15s ease;
+   }
+   
+   .section-header:hover {
+     background-color: #faf7f3;
+   }
+   
+   .section-header-left {
+     display: flex;
+     align-items: center;
+     gap: 16px;
+   }
+   
+   .section-number {
+     font-family: 'Playfair Display', serif;
+     font-size: 13px;
+     font-weight: 600;
+     color: #c8a96e;
+     min-width: 26px;
+   }
+   
+   .section-title {
+     font-family: 'Playfair Display', serif;
+     font-size: 16px;
+     font-weight: 600;
+     color: #1a1a2e;
+     letter-spacing: -0.2px;
+   }
+   
+   /* chevron icon circle */
+   .chevron {
+     width: 20px;
+     height: 20px;
+     border: 1.5px solid #ccc;
+     border-radius: 50%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     flex-shrink: 0;
+     transition: transform 0.25s ease, border-color 0.2s ease;
+   }
+   
+   .section-block.active .chevron {
+     transform: rotate(180deg);
+     border-color: #c8a96e;
+   }
+   
+   .chevron svg {
+     width: 9px;
+     height: 9px;
+     fill: none;
+     stroke: #999;
+     stroke-width: 2;
+     stroke-linecap: round;
+     stroke-linejoin: round;
+   }
+   
+   .section-block.active .chevron svg {
+     stroke: #c8a96e;
+   }
+   
+   /* accordion body */
+   .section-body {
+     display: none;
+     padding: 4px 28px 28px 70px;
+     border-top: 1px solid #f0ebe3;
+   }
+   
+   .section-block.active .section-body {
+     display: block;
+   }
+   
+   .section-body p {
+     font-family: 'Source Serif 4', serif;
+     font-size: 15px;
+     line-height: 1.85;
+     color: #3a3a4a;
+     margin-top: 18px;
+   }
+   
+   .section-body p + p {
+     margin-top: 12px;
+   }
+   
+   /* ─── FOOTER NOTE ────────────────────────────── */
+   .footer-note {
+     background-color: #1a1a2e;
+     color: rgba(255, 255, 255, 0.45);
+     margin: 48px -24px -80px;
+     padding: 30px 24px;
+     text-align: center;
+   }
+   
+   .footer-note p {
+     font-family: 'Source Serif 4', serif;
+     font-size: 12.5px;
+     letter-spacing: 0.3px;
+     line-height: 1.75;
+   }
+   
+   .footer-note a {
+     color: #c8a96e;
+     text-decoration: none;
+   }
+   
+   .footer-note a:hover {
+     text-decoration: underline;
+   }
+   
+   /* ─── RESPONSIVE ─────────────────────────────── */
+   @media (max-width: 600px) {
+     .section-body {
+       padding-left: 28px;
+     }
+   
+     .toc-grid {
+       grid-template-columns: 1fr;
+     }
+   
+     .terms-meta {
+       gap: 12px;
+     }
+   
+     .meta-dot {
+       display: none;
+     }
+   }

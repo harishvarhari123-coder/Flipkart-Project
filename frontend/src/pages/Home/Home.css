@@ -1,0 +1,302 @@
+.home-page {
+  min-height: 100vh;
+  padding-bottom: 40px;
+}
+
+.home-section {
+  max-width: 1400px;
+  margin: 32px auto;
+  padding: 0 20px;
+}
+
+.home-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  background: var(--bg-white);
+  padding: 16px 28px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+  border: 1px solid var(--border-light);
+}
+
+.home-section-header h2 {
+  font-family: var(--font-brand);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.3px;
+}
+
+.home-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 20px;
+}
+
+.home-categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 16px;
+  padding: 12px 0;
+}
+
+.home-category-card {
+  background: var(--bg-white);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition-bounce);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.02);
+}
+
+.home-category-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-medium);
+  background: var(--bg-surface);
+}
+
+.home-category-icon {
+  font-size: 38px;
+  margin-bottom: 12px;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.home-category-card:hover .home-category-icon {
+  transform: scale(1.16) rotate(4deg);
+}
+
+.home-category-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.1px;
+}
+
+/* =============================================
+   FLASH DEALS HEADER STRIP
+   ============================================= */
+.home-deals-strip {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+  border-radius: var(--radius-lg);
+  padding: 24px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 36px auto 20px auto;
+  max-width: 1360px;
+  box-shadow: 0 10px 30px rgba(49, 46, 129, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.home-deals-strip::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -20%;
+  width: 60%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.deal-left {
+  position: relative;
+  z-index: 2;
+}
+
+.home-deals-strip h2 {
+  color: white;
+  font-family: var(--font-brand);
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.home-deals-strip p {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 14px;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.home-deals-timer {
+  display: flex;
+  gap: 12px;
+  position: relative;
+  z-index: 2;
+}
+
+.home-deals-timer-box {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: white;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  text-align: center;
+  min-width: 68px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: var(--transition);
+}
+
+.home-deals-timer-box:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.home-deals-timer-box .number {
+  font-size: 22px;
+  font-weight: 800;
+  display: block;
+  font-family: var(--font-brand);
+  color: var(--secondary);
+  text-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+}
+
+.home-deals-timer-box .label {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  margin-top: 2px;
+  display: block;
+}
+
+/* =============================================
+   STORE FEATURES / BENEFITS ROW
+   ============================================= */
+.home-features {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  background: var(--bg-white);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.02);
+  margin: 32px auto;
+  max-width: 1400px;
+}
+
+.home-feature {
+  padding: 28px 20px;
+  text-align: center;
+  border-right: 1px solid var(--border-light);
+  transition: var(--transition);
+}
+
+.home-feature:hover {
+  background: var(--bg-surface);
+}
+
+.home-feature:last-child {
+  border-right: none;
+}
+
+.home-feature-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.home-feature:hover .home-feature-icon {
+  transform: translateY(-4px);
+}
+
+.home-feature h4 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+}
+
+.home-feature p {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* =============================================
+   RESPONSIVE DESIGN
+   ============================================= */
+@media (max-width: 992px) {
+  .home-features {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .home-feature:nth-child(2) {
+    border-right: none;
+  }
+  .home-feature:nth-child(1), .home-feature:nth-child(2) {
+    border-bottom: 1px solid var(--border-light);
+  }
+}
+
+@media (max-width: 768px) {
+  .home-section {
+    padding: 0 16px;
+    margin: 24px auto;
+  }
+  .home-section-header {
+    padding: 12px 20px;
+    margin-bottom: 16px;
+  }
+  .home-section-header h2 {
+    font-size: 17px;
+  }
+  .home-products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .home-categories-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .home-deals-strip {
+    flex-direction: column;
+    gap: 18px;
+    text-align: center;
+    margin: 24px 16px;
+    padding: 20px 24px;
+  }
+  .home-deals-strip h2 {
+    font-size: 20px;
+  }
+  .home-deals-strip p {
+    font-size: 13px;
+  }
+  .home-deals-timer-box {
+    padding: 8px 12px;
+    min-width: 60px;
+  }
+  .home-deals-timer-box .number {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-categories-grid {
+    grid-template-columns: repeat(3, 1fr); /* Stay triple grid on small screens */
+    gap: 10px;
+  }
+  .home-feature {
+    padding: 20px 12px;
+  }
+  .home-feature-icon {
+    font-size: 26px;
+  }
+  .home-feature h4 {
+    font-size: 13px;
+  }
+}

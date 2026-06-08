@@ -1,0 +1,583 @@
+/* ─────────────────────────────────────────────
+   FarmToDoorstep.css  —  Harikart Farm Section
+   Aesthetic: Organic / Editorial / Nature-rooted
+───────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/* ── CSS Variables ── */
+:root {
+  --farm-green-deep: #1a3c2a;
+  --farm-green-mid: #2d6a4f;
+  --farm-green-bright: #40916c;
+  --farm-green-light: #74c69d;
+  --farm-green-pale: #d8f3dc;
+  --farm-cream: #fdf8f0;
+  --farm-gold: #e9c46a;
+  --farm-orange: #f4a261;
+  --farm-text: #1c2b22;
+  --farm-text-muted: #5a7066;
+  --farm-white: #ffffff;
+  --farm-radius: 20px;
+  --farm-shadow: 0 12px 40px rgba(26, 60, 42, 0.12);
+  --farm-shadow-hover: 0 20px 60px rgba(26, 60, 42, 0.2);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+/* ── Section Shell ── */
+.farm-section {
+  position: relative;
+  background: var(--farm-cream);
+  padding: 100px 24px;
+  overflow: hidden;
+  font-family: var(--font-body);
+}
+
+/* Decorative leaf blobs */
+.farm-bg-leaf {
+  position: absolute;
+  border-radius: 50% 20% 50% 20%;
+  opacity: 0.06;
+  pointer-events: none;
+}
+.farm-bg-leaf--1 {
+  width: 500px;
+  height: 500px;
+  background: var(--farm-green-mid);
+  top: -100px;
+  right: -120px;
+  transform: rotate(30deg);
+}
+.farm-bg-leaf--2 {
+  width: 350px;
+  height: 350px;
+  background: var(--farm-green-bright);
+  bottom: 60px;
+  left: -80px;
+  transform: rotate(-20deg);
+}
+
+.farm-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+/* ── Shared Tag Pill ── */
+.farm-tag {
+  display: inline-block;
+  background: var(--farm-green-pale);
+  color: var(--farm-green-mid);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--farm-green-light);
+  margin-bottom: 16px;
+}
+
+/* ─────────────────────────────
+   HERO BLOCK
+───────────────────────────── */
+.farm-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+/* ── Image Collage ── */
+.farm-images {
+  position: relative;
+  height: 520px;
+}
+
+.farm-img-main {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80%;
+  height: 85%;
+  border-radius: var(--farm-radius);
+  overflow: hidden;
+  box-shadow: var(--farm-shadow);
+}
+.farm-img-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.farm-img-main:hover img {
+  transform: scale(1.04);
+}
+
+.farm-img-secondary {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 52%;
+  height: 50%;
+  border-radius: var(--farm-radius);
+  overflow: hidden;
+  box-shadow: var(--farm-shadow);
+  border: 4px solid var(--farm-white);
+}
+.farm-img-secondary img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.farm-img-secondary:hover img {
+  transform: scale(1.04);
+}
+
+/* Floating badge */
+.farm-badge-float {
+  position: absolute;
+  top: 24px;
+  right: 10px;
+  background: var(--farm-white);
+  border: 1.5px solid var(--farm-green-pale);
+  border-radius: 100px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 6px 20px rgba(26, 60, 42, 0.14);
+  z-index: 10;
+  animation: floatBadge 3s ease-in-out infinite;
+}
+.farm-badge-icon {
+  font-size: 18px;
+}
+.farm-badge-text {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--farm-green-deep);
+}
+
+@keyframes floatBadge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* ── Content Side ── */
+.farm-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.farm-heading {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 700;
+  color: var(--farm-green-deep);
+  line-height: 1.15;
+  margin: 0 0 20px;
+}
+.farm-heading em {
+  font-style: italic;
+  color: var(--farm-green-bright);
+}
+
+.farm-subtitle {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--farm-text-muted);
+  margin: 0 0 32px;
+  max-width: 480px;
+}
+
+/* Feature Cards */
+.farm-features {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 36px;
+}
+
+.feature-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 20px;
+  background: var(--farm-white);
+  border-radius: 14px;
+  border: 1px solid rgba(116, 198, 157, 0.25);
+  box-shadow: 0 4px 16px rgba(26, 60, 42, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.feature-card:hover {
+  transform: translateX(6px);
+  box-shadow: 0 8px 28px rgba(26, 60, 42, 0.12);
+}
+
+.feature-icon {
+  font-size: 28px;
+  width: 52px;
+  height: 52px;
+  background: var(--farm-green-pale);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.feature-text h4 {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--farm-green-deep);
+  margin: 0 0 4px;
+}
+.feature-text p {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--farm-text-muted);
+  margin: 0;
+}
+
+/* Learn More Button */
+.learn-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--farm-green-mid);
+  color: var(--farm-white);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  box-shadow: 0 6px 20px rgba(45, 106, 79, 0.35);
+  align-self: flex-start;
+}
+.learn-btn:hover {
+  background: var(--farm-green-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(26, 60, 42, 0.4);
+}
+.learn-btn-arrow {
+  font-size: 18px;
+  transition: transform 0.2s ease;
+}
+.learn-btn:hover .learn-btn-arrow {
+  transform: translateX(4px);
+}
+
+/* ─────────────────────────────
+   STATS STRIP
+───────────────────────────── */
+.farm-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  background: var(--farm-green-pale);
+  border-radius: var(--farm-radius);
+  overflow: hidden;
+  border: 1px solid rgba(116, 198, 157, 0.4);
+}
+
+.stat-item {
+  background: var(--farm-white);
+  padding: 36px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  transition: background 0.2s ease;
+}
+.stat-item:hover {
+  background: var(--farm-green-pale);
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--farm-green-mid);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--farm-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ─────────────────────────────
+   PROCESS / HOW IT WORKS
+───────────────────────────── */
+.farm-process {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+}
+
+.farm-process-header {
+  text-align: center;
+  max-width: 520px;
+}
+.farm-process-header h3 {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--farm-green-deep);
+  margin: 8px 0 12px;
+}
+.farm-process-header p {
+  font-size: 15px;
+  color: var(--farm-text-muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.farm-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  width: 100%;
+  position: relative;
+}
+
+.step-card {
+  position: relative;
+  background: var(--farm-white);
+  border-radius: var(--farm-radius);
+  padding: 32px 24px;
+  text-align: center;
+  border: 1px solid rgba(116, 198, 157, 0.25);
+  box-shadow: 0 4px 20px rgba(26, 60, 42, 0.07);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.step-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--farm-shadow-hover);
+}
+
+.step-number {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--farm-green-pale);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.step-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+.step-card h4 {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--farm-green-deep);
+  margin: 0 0 8px;
+}
+.step-card p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--farm-text-muted);
+  margin: 0;
+}
+
+/* Connector arrow between steps */
+.step-connector {
+  position: absolute;
+  right: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  color: var(--farm-green-light);
+  z-index: 2;
+  line-height: 1;
+}
+
+/* ─────────────────────────────
+   TRUST BANNER
+───────────────────────────── */
+.farm-trust {
+  background: linear-gradient(135deg, var(--farm-green-deep) 0%, var(--farm-green-mid) 100%);
+  border-radius: calc(var(--farm-radius) + 4px);
+  padding: 60px;
+  position: relative;
+  overflow: hidden;
+}
+.farm-trust::before {
+  content: '🌿';
+  position: absolute;
+  font-size: 200px;
+  top: -30px;
+  right: -20px;
+  opacity: 0.08;
+  pointer-events: none;
+  line-height: 1;
+}
+
+.farm-trust-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 48px;
+  align-items: center;
+}
+
+.farm-trust-text h3 {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--farm-white);
+  margin: 0 0 14px;
+}
+.farm-trust-text p {
+  font-size: 15px;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0 0 20px;
+  max-width: 500px;
+}
+
+.farm-trust-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 24px;
+}
+.farm-trust-list li {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.farm-trust-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  min-width: 200px;
+}
+.trust-cta-headline {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--farm-gold);
+  margin: 0;
+  text-align: center;
+}
+
+/* Shop Now Button */
+.shop-btn {
+  width: 100%;
+  background: var(--farm-gold);
+  color: var(--farm-green-deep);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 700;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+.shop-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+}
+
+/* Ghost Button */
+.ghost-btn {
+  width: 100%;
+  background: transparent;
+  color: var(--farm-white);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px 28px;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.ghost-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* ─────────────────────────────
+   RESPONSIVE
+───────────────────────────── */
+@media (max-width: 1024px) {
+  .farm-steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .step-connector {
+    display: none;
+  }
+  .farm-trust-inner {
+    grid-template-columns: 1fr;
+  }
+  .farm-trust-cta {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .shop-btn, .ghost-btn {
+    width: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .farm-section {
+    padding: 64px 20px;
+  }
+  .farm-hero {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .farm-images {
+    height: 340px;
+  }
+  .farm-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .farm-trust {
+    padding: 36px 28px;
+  }
+  .farm-trust-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .farm-heading {
+    font-size: 32px;
+  }
+  .farm-steps {
+    grid-template-columns: 1fr;
+  }
+  .farm-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+  .farm-images {
+    height: 280px;
+  }
+}

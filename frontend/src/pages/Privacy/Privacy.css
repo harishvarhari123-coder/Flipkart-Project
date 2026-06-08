@@ -1,0 +1,328 @@
+/* =========================
+   Base Reset
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "DM Sans", sans-serif;
+  background: #f6f5f2;
+  color: #1c1c1c;
+}
+
+/* =========================
+   Page Wrapper
+========================= */
+.priv-page {
+  position: relative;
+  overflow-x: hidden;
+  padding-bottom: 80px;
+}
+
+/* =========================
+   Background Shapes
+========================= */
+.priv-bg-shape {
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  filter: blur(90px);
+  opacity: 0.25;
+  z-index: 0;
+  border-radius: 50%;
+  animation: float 10s ease-in-out infinite;
+}
+
+.priv-bg-shape--1 {
+  background: #c7b9ff;
+  top: -150px;
+  left: -150px;
+}
+
+.priv-bg-shape--2 {
+  background: #ffd6a5;
+  bottom: -150px;
+  right: -150px;
+  animation-delay: 2s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(30px) scale(1.05); }
+}
+
+/* =========================
+   Navbar
+========================= */
+.priv-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 40px;
+  background: rgba(246, 245, 242, 0.6);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.priv-nav--scrolled {
+  border-bottom: 1px solid #e5e3dd;
+  background: rgba(246, 245, 242, 0.85);
+}
+
+.priv-nav-brand {
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.priv-nav-label {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+/* =========================
+   Hero Section
+========================= */
+.priv-header {
+  padding: 90px 40px 40px;
+  position: relative;
+  z-index: 2;
+}
+
+.priv-header-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.priv-eyebrow {
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: 18px;
+}
+
+.priv-h1 {
+  font-size: 52px;
+  line-height: 1.1;
+  font-family: "Instrument Serif", serif;
+}
+
+.priv-h1 em {
+  font-style: italic;
+  color: #5a4fcf;
+}
+
+.priv-subtitle {
+  margin-top: 16px;
+  font-size: 18px;
+  opacity: 0.75;
+  max-width: 600px;
+}
+
+.priv-meta {
+  margin-top: 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  opacity: 0.65;
+}
+
+.priv-badge {
+  background: #fff;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid #e7e5de;
+}
+
+.priv-dot-sep {
+  opacity: 0.4;
+}
+
+.priv-header-rule {
+  margin-top: 40px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #d9d6cd, transparent);
+}
+
+/* =========================
+   Index Strip
+========================= */
+.priv-index {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  padding: 20px 40px;
+  position: sticky;
+  top: 64px;
+  z-index: 40;
+  background: rgba(246, 245, 242, 0.75);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #ebe8e0;
+}
+
+.priv-index-item {
+  white-space: nowrap;
+  font-size: 13px;
+  text-decoration: none;
+  color: #444;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: all 0.25s ease;
+}
+
+.priv-index-item:hover {
+  border-color: #cfcac0;
+  background: #fff;
+  color: #000;
+}
+
+/* =========================
+   Main Content
+========================= */
+.priv-main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px;
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================
+   Section Card
+========================= */
+.priv-card {
+  display: flex;
+  gap: 18px;
+  padding: 26px;
+  margin-bottom: 22px;
+  border-radius: 18px;
+  border: 1px solid #e6e4de;
+  background: #ffffff;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  transition: all 0.35s ease;
+}
+
+.priv-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 45px rgba(0, 0, 0, 0.08);
+}
+
+.priv-card-num {
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0.4;
+  min-width: 40px;
+}
+
+.priv-card-body {
+  flex: 1;
+}
+
+.priv-card-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.priv-card-icon {
+  font-size: 18px;
+}
+
+.priv-card-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.priv-card-text {
+  font-size: 15px;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+/* =========================
+   Tags
+========================= */
+.priv-tags {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.priv-tag {
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #f3f2ee;
+  border: 1px solid #e7e5de;
+  opacity: 0.85;
+}
+
+/* =========================
+   Footer
+========================= */
+.priv-footer {
+  text-align: center;
+  padding: 60px 20px 20px;
+  opacity: 0.75;
+}
+
+.priv-footer-text {
+  margin-bottom: 10px;
+}
+
+.priv-footer-link {
+  color: #5a4fcf;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.priv-footer-link:hover {
+  text-decoration: underline;
+}
+
+.priv-footer-copy {
+  font-size: 13px;
+  opacity: 0.6;
+}
+
+/* =========================
+   Responsive
+========================= */
+@media (max-width: 768px) {
+  .priv-h1 {
+    font-size: 38px;
+  }
+
+  .priv-nav {
+    padding: 14px 20px;
+  }
+
+  .priv-header,
+  .priv-main {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .priv-index {
+    padding: 14px 20px;
+  }
+
+  .priv-card {
+    flex-direction: column;
+  }
+}

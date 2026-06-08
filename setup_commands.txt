@@ -1,0 +1,44 @@
+# Flipkart Project - Setup Commands
+
+Here are the exact commands used to set up the project and install all dependencies:
+
+## 1. Frontend Setup (React + Vite)
+```bash
+# Create the React project using Vite
+npx create-vite@latest frontend --template react
+
+# Move into the frontend folder
+cd frontend
+
+# Install the required frontend dependencies
+npm install react-router-dom axios react-icons
+
+# Install standard React dependencies
+npm install
+```
+
+## 2. Backend Setup (Node.js + Express)
+```bash
+# Move into the backend folder
+cd backend
+
+# Initialize package.json (if not already created manually)
+npm init -y
+
+# Install standard backend dependencies
+npm install express cors mysql2 dotenv bcryptjs jsonwebtoken
+
+# Install nodemon as a dev dependency (for auto-restarting server during dev)
+npm install nodemon --save-dev
+```
+
+## 3. Running the Project
+```bash
+# Terminal 1: Run the backend server
+cd backend
+npm run dev
+
+# Terminal 2: Run the frontend React app
+cd frontend
+npm run dev
+```

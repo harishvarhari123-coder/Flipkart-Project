@@ -1,0 +1,157 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .alerts-page {
+    font-family: "Arial", sans-serif;
+    background: #f5f8fc;
+    color: #1f2937;
+  }
+  
+  .alerts-hero {
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    color: white;
+    text-align: center;
+    padding: 100px 30px;
+  }
+  
+  .alerts-hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+  
+  .alerts-hero-content p {
+    max-width: 700px;
+    margin: auto;
+    line-height: 1.8;
+  }
+  
+  .alerts-btn {
+    display: inline-block;
+    margin-top: 40px;
+    padding: 14px 30px;
+    border-radius: 10px;
+    background: white;
+    color: #7c3aed;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .alerts-content p {
+    margin-bottom: 20px;
+    line-height: 1.8;
+  }
+  
+  .alerts-btn:hover {
+    transform: translateY(-3px);
+  }
+  
+  .alerts-features,
+  .alerts-process,
+  .alerts-benefits,
+  .alerts-stats,
+  .alerts-faq {
+    padding: 80px 40px;
+  }
+  
+  .alerts-features h2,
+  .alerts-process h2,
+  .alerts-benefits h2,
+  .alerts-stats h2,
+  .alerts-faq h2 {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .alerts-grid,
+  .process-grid,
+  .benefits-grid,
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+  }
+  
+  .alert-card,
+  .process-card,
+  .benefit-card,
+  .stats-card {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  }
+  
+  .alert-card h3,
+  .process-card h3 {
+    color: #7c3aed;
+    margin-bottom: 12px;
+  }
+  
+  .process-card {
+    text-align: center;
+  }
+  
+  .process-card span {
+    width: 60px;
+    height: 60px;
+    background: #a855f7;
+    color: white;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    font-weight: bold;
+  }
+  
+  .benefit-card {
+    text-align: center;
+    color: #7c3aed;
+    font-weight: 600;
+  }
+  
+  .stats-card {
+    text-align: center;
+  }
+  
+  .stats-card h3 {
+    font-size: 2rem;
+    color: #a855f7;
+    margin-bottom: 10px;
+  }
+  
+  .faq-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  }
+  
+  .faq-card h4 {
+    margin-bottom: 10px;
+    color: #7c3aed;
+  }
+  
+  @media (max-width: 768px) {
+    .alerts-hero {
+      padding: 70px 20px;
+    }
+  
+    .alerts-hero-content h1 {
+      font-size: 2rem;
+    }
+  
+    .alerts-features,
+    .alerts-process,
+    .alerts-benefits,
+    .alerts-stats,
+    .alerts-faq {
+      padding: 50px 20px;
+    }
+  }

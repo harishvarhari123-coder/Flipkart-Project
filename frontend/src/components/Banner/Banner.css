@@ -1,0 +1,444 @@
+/* =============================================
+   MAIN CONTAINERS & WRAPPERS
+   ============================================= */
+.banner-container,
+.deals-wrapper,
+.kitchen-wrapper {
+  width: 100%;
+  background: var(--bg-primary);
+  padding: 16px 20px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .banner-container,
+  .deals-wrapper,
+  .kitchen-wrapper {
+    padding: 10px 14px;
+  }
+}
+
+/* =============================================
+   MAIN BANNER CAROUSEL
+   ============================================= */
+.banner-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: var(--bg-white);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-light);
+}
+
+.banner-slides-wrapper {
+  overflow: hidden;
+}
+
+.banner-slides {
+  display: flex;
+  transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.banner-slide {
+  min-width: 100%;
+  height: 400px;
+  position: relative;
+}
+
+.banner-content {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 80px;
+  gap: 48px;
+}
+
+/* Banner Text Styles */
+.banner-text {
+  flex: 1.2;
+  color: white;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.banner-title {
+  font-family: var(--font-brand);
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.banner-subtitle {
+  font-size: 20px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 20px;
+  letter-spacing: 0.2px;
+}
+
+.banner-offer-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  margin-bottom: 24px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.banner-cta {
+  padding: 12px 32px;
+  border: none;
+  border-radius: var(--radius-full);
+  background: white;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: var(--transition-bounce);
+}
+
+.banner-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25), 0 0 15px rgba(255, 255, 255, 0.5);
+  background: var(--bg-surface);
+}
+
+.banner-cta:active {
+  transform: translateY(0);
+}
+
+/* Banner Image Styles */
+.banner-image {
+  flex: 1.1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.banner-image img {
+  width: 100%;
+  max-width: 480px;
+  height: 290px;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  border: 4px solid rgba(255, 255, 255, 0.15);
+  transition: var(--transition);
+}
+
+.banner-slide:hover .banner-image img {
+  transform: scale(1.025);
+}
+
+/* =============================================
+   MAIN BANNER NAVIGATORS
+   ============================================= */
+.banner-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-full) !important;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: white;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: var(--transition-bounce);
+}
+
+.banner-nav:hover {
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--text-primary);
+  transform: translateY(-50%) scale(1.08);
+  box-shadow: var(--shadow-md);
+}
+
+.banner-nav-left {
+  left: 20px;
+}
+
+.banner-nav-right {
+  right: 20px;
+}
+
+/* =============================================
+   BANNER DOT INDICATORS
+   ============================================= */
+.banner-indicators {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  z-index: 10;
+}
+
+.banner-dot {
+  width: 8px;
+  height: 8px;
+  border: none;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.banner-dot.active {
+  width: 24px;
+  background: white;
+}
+
+/* =============================================
+   PROMOTIONAL SECTIONS
+   ============================================= */
+.deals-section,
+.kitchen-section {
+  position: relative;
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+}
+
+/* Headers */
+.deals-header,
+.kitchen-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 26px;
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 14px;
+}
+
+.deals-header h2,
+.kitchen-header h2 {
+  font-family: var(--font-brand);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.2px;
+}
+
+.deals-header span,
+.kitchen-header span {
+  color: var(--primary);
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  transition: var(--transition);
+}
+
+.deals-header span:hover,
+.kitchen-header span:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+/* =============================================
+   DEAL CARDS GRID
+   ============================================= */
+.deals-items {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 20px;
+}
+
+.deal-card {
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: var(--transition-bounce);
+  cursor: pointer;
+  background: var(--bg-surface);
+}
+
+.deal-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-medium);
+  background: var(--bg-white);
+}
+
+.deal-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.deal-card:hover img {
+  transform: scale(1.05);
+}
+
+.deal-card p {
+  padding: 12px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* =============================================
+   KITCHEN CARDS GRID
+   ============================================= */
+.kitchen-items {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+.kitchen-card {
+  cursor: pointer;
+  transition: var(--transition-bounce);
+}
+
+.kitchen-card:hover {
+  transform: translateY(-6px);
+}
+
+.kitchen-image-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: var(--transition-bounce);
+}
+
+.kitchen-card:hover .kitchen-image-box {
+  background: var(--bg-white);
+  border-color: var(--border-medium);
+  box-shadow: var(--shadow-md);
+}
+
+.kitchen-image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 18px;
+  transition: transform 0.4s ease;
+}
+
+.kitchen-card:hover .kitchen-image-box img {
+  transform: scale(1.06);
+}
+
+.kitchen-card p {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* =============================================
+   RESPONSIVE DESIGN
+   ============================================= */
+@media (max-width: 1200px) {
+  .deals-items {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .kitchen-items {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .banner-title {
+    font-size: 38px;
+  }
+  .banner-subtitle {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .banner-content {
+    flex-direction: column;
+    text-align: center;
+    padding: 30px 24px;
+    gap: 24px;
+    align-items: center;
+  }
+  .banner-text {
+    align-items: center;
+    flex: none;
+  }
+  .banner-title {
+    font-size: 28px;
+  }
+  .banner-subtitle {
+    font-size: 16px;
+    margin-bottom: 14px;
+  }
+  .banner-slide {
+    height: auto;
+    min-height: 480px;
+  }
+  .banner-image {
+    flex: none;
+    width: 100%;
+  }
+  .banner-image img {
+    max-width: 280px;
+    height: 180px;
+  }
+  .banner-nav {
+    display: none; /* Hide side navigations on mobile for cleanliness */
+  }
+  .deals-items,
+  .kitchen-items {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .deals-section,
+  .kitchen-section {
+    padding: 16px;
+  }
+  .deals-header h2,
+  .kitchen-header h2 {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .deals-items,
+  .kitchen-items {
+    grid-template-columns: repeat(2, 1fr); /* Stay double-column for compact screens */
+    gap: 10px;
+  }
+  .banner-slide {
+    min-height: 420px;
+  }
+  .banner-title {
+    font-size: 24px;
+  }
+}

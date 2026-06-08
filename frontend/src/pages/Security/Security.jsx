@@ -1,0 +1,226 @@
+import React, { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Security.css";
+
+const securityFeatures = [
+  {
+    icon: "🔒",
+    title: "SSL/TLS Encryption",
+    path: "/ssl-tls-encryption",
+    desc: "All data transmitted between you and Harikart is fully encrypted."
+  },
+  {
+    icon: "🛡️",
+    title: "PCI-DSS Compliant",
+    path: "/pci-dss-compliant",
+    desc: "We partner with PCI-DSS certified payment processors for every transaction."
+  },
+  {
+    icon: "🔑",
+    title: "Two-Factor Authentication",
+    path: "/two-factor-authentication",
+    desc: "Add an extra layer of protection with OTP-based two-factor login."
+  },
+  {
+    icon: "👁️",
+    title: "24/7 Fraud Monitoring",
+    path: "/fraud-monitoring",
+    desc: "Our advanced AI systems detect and block suspicious activity in real time."
+  },
+  {
+    icon: "🔐",
+    title: "Data Encryption at Rest",
+    path: "/data-encryption",
+    desc: "Your personal information is stored using AES-256 encryption at all times."
+  },
+  {
+    icon: "🚨",
+    title: "Instant Alerts",
+    path: "/instant-alerts",
+    desc: "Receive immediate notifications for any activity on your account."
+  },
+  {
+    icon: "🏦",
+    title: "Secure Banking",
+    path: "/secure-banking",
+    desc: "We integrate with India's leading banks using RBI-compliant security protocols."
+  },
+  {
+    icon: "✅",
+    title: "Regular Security Audits",
+    path: "/security-audits",
+    desc: "Third-party security experts audit our systems on a quarterly basis."
+  }
+];
+
+const certifications = [
+  { name: "ISO 27001:2013", desc: "Information Security Management" },
+  { name: "PCI DSS Level 1", desc: "Payment Card Industry Compliance" },
+  { name: "SOC 2 Type II",   desc: "Service Organization Control" },
+];
+
+export default function Security() {
+  const containerRef = useRef(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.focus();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, []);
+
+  return (
+    <div className="security-page" ref={containerRef} tabIndex={0}>
+
+      {/* ── Hero ── */}
+      <div className="security-hero">
+        <div className="security-hero-content">
+          <div className="security-badge">
+            <span className="badge-icon">🛡️</span>
+            <span className="badge-text">TRUSTED & SECURE</span>
+          </div>
+          <h1 className="security-main-title">Your Security is Our Priority</h1>
+          <p className="security-subtitle">
+            At Harikart, we implement industry-leading security measures to protect your personal
+            information, financial data, and shopping experience. Your trust matters to us.
+          </p>
+        </div>
+        <div className="security-hero-visual">
+          <div className="security-shield">
+            <span className="shield-icon">🔐</span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Security Features Grid ── */}
+      <section className="security-features-section">
+        <div className="section-header">
+          <h2 className="section-title">How We Protect You</h2>
+          <div className="section-divider"></div>
+          <p className="section-description">
+            Multiple layers of security work together to keep your data safe and your transactions secure.
+          </p>
+        </div>
+
+        <div className="security-grid">
+          {securityFeatures.map((feature, index) => (
+            <div
+              className="security-card"
+              key={index}
+              onClick={() => navigate(feature.path)}
+              style={{ cursor: "pointer" }}
+            >
+              <div className="card-icon-wrapper">
+                <span className="card-icon">{feature.icon}</span>
+              </div>
+              {/* ← text wrapper needed for horizontal layout */}
+              <div className="card-text-block">
+                <h3 className="card-title">{feature.title}</h3>
+                <p className="card-description">{feature.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Certifications ── */}
+      <section className="certifications-section">
+        <div className="section-header">
+          <h2 className="section-title">Our Certifications</h2>
+          <div className="section-divider"></div>
+          <p className="section-description">
+            We maintain the highest industry standards and compliance certifications.
+          </p>
+        </div>
+
+        <div className="certifications-grid">
+          {certifications.map((cert, index) => (
+            <div className="certification-card" key={index}>
+              <div className="cert-icon">✓</div>
+              <h4 className="cert-name">{cert.name}</h4>
+              <p className="cert-desc">{cert.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Best Practices ── */}
+      <section className="best-practices-section">
+        <div className="section-header">
+          <h2 className="section-title">Security Best Practices</h2>
+          <div className="section-divider"></div>
+        </div>
+
+        <div className="practices-content">
+          <div className="practice-item">
+            <span className="practice-number">01</span>
+            <div className="practice-text">
+              <h4>Use Strong Passwords</h4>
+              <p>Create unique passwords with a mix of uppercase, lowercase, numbers, and special
+                characters. Avoid using the same password across multiple platforms.</p>
+            </div>
+          </div>
+
+          <div className="practice-item">
+            <span className="practice-number">02</span>
+            <div className="practice-text">
+              <h4>Enable Two-Factor Authentication</h4>
+              <p>Add an extra layer of security by enabling 2FA. This ensures that only you can
+                access your account even if someone knows your password.</p>
+            </div>
+          </div>
+
+          <div className="practice-item">
+            <span className="practice-number">03</span>
+            <div className="practice-text">
+              <h4>Verify Website URL</h4>
+              <p>Always check that you're on the official Harikart domain (https://harikart.com)
+                before entering any personal or payment information.</p>
+            </div>
+          </div>
+
+          <div className="practice-item">
+            <span className="practice-number">04</span>
+            <div className="practice-text">
+              <h4>Beware of Phishing</h4>
+              <p>We never ask for passwords, OTPs, or card details via email or phone. Be cautious
+                of suspicious emails or messages claiming to be from Harikart.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Report Security Issue ── */}
+      <section className="report-section">
+        <div className="report-card">
+          <div className="report-icon">⚠️</div>
+          <h3 className="report-title">Found a Security Vulnerability?</h3>
+          <p className="report-description">
+            We take security issues seriously. If you've discovered a potential security vulnerability
+            or concern, please report it to our security team immediately.
+          </p>
+          <div className="report-actions">
+            <a href="mailto:security@harikart.com" className="report-button primary">
+              <span className="button-icon">📧</span>
+              security@harikart.com
+            </a>
+            <div className="report-info">
+              <p>We commit to responding within 48 hours and working with security researchers
+                to resolve issues responsibly.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Footer Note ── */}
+      <div className="security-footer">
+        <p className="footer-text">
+          <strong>Last Updated:</strong> May 2026 | Our security measures are continuously updated
+          to address emerging threats and maintain the highest standards of data protection.
+        </p>
+      </div>
+
+    </div>
+  );
+}

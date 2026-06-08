@@ -1,0 +1,230 @@
+.payment-options {
+  display: flex;
+  flex-direction: column;
+}
+
+.payment-method {
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.payment-method-header {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  background: white;
+}
+
+.payment-method.active .payment-method-header {
+  background: #f5faff;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.payment-method-header input[type="radio"] {
+  accent-color: var(--primary);
+}
+
+.payment-method-header span {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.payment-method-content {
+  padding: 20px;
+  background: #f5faff;
+}
+
+.payment-form-row {
+  margin-bottom: 16px;
+}
+
+.payment-form-row input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+}
+
+.payment-form-row input:focus {
+  border-color: var(--primary);
+}
+
+.payment-form-split {
+  display: flex;
+  gap: 16px;
+}
+
+.payment-form-split input {
+  flex: 1;
+}
+
+.payment-pay-btn {
+  width: 250px;
+  margin-top: 8px;
+}
+
+/* Realtime Validation Error Styles */
+.input-error-text {
+  color: var(--danger);
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+  font-weight: 500;
+}
+
+input.has-error, select.has-error {
+  border-color: var(--danger) !important;
+  background-color: #fff8f8;
+}
+
+/* Modal Overlay Styling */
+.payment-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.payment-modal-card {
+  background: white;
+  width: 90%;
+  max-width: 460px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  animation: modalSlideUp 0.3s ease-out;
+}
+
+.payment-modal-header {
+  padding: 16px 20px;
+  background: #f5f5f5;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.payment-modal-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.close-modal-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.close-modal-btn:hover {
+  color: var(--text-primary);
+}
+
+.payment-modal-body {
+  padding: 24px;
+}
+
+.payment-modal-sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.otp-input-container {
+  margin-bottom: 16px;
+}
+
+.otp-field {
+  width: 100%;
+  padding: 14px;
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 8px;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  outline: none;
+  transition: var(--transition);
+}
+
+.otp-field:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(40, 116, 240, 0.1);
+}
+
+.otp-field.has-error {
+  border-color: var(--danger);
+  background: #fff8f8;
+}
+
+.otp-error-msg {
+  color: var(--danger);
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+  font-weight: 500;
+  text-align: center;
+}
+
+.otp-simulation-hint {
+  font-size: 12px;
+  background: #f5faff;
+  color: #0d47a1;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 20px;
+  border: 1px solid rgba(40, 116, 240, 0.1);
+}
+
+.payment-verify-submit-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.payment-form-split > div {
+  margin-bottom: 16px;
+}
+
+.payment-form-split input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+}
+
+.payment-form-split input:focus {
+  border-color: var(--primary);
+}
+
+@keyframes modalSlideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

@@ -1,0 +1,145 @@
+.security-wrapper {
+    font-family: Arial, sans-serif;
+    background: #0b1220;
+    color: white;
+    min-height: 100vh;
+  }
+  
+  /* HERO */
+  .hero-section {
+    text-align: center;
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+  }
+  
+  .hero-section h1 {
+    font-size: 40px;
+    margin-bottom: 10px;
+  }
+  
+  .hero-section p {
+    color: #cbd5e1;
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .cta-btn {
+    margin-top: 20px;
+    padding: 12px 20px;
+    border: none;
+    background: #38bdf8;
+    color: black;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .cta-btn:hover {
+    background: #0ea5e9;
+    transform: scale(1.05);
+  }
+  
+  /* GRID */
+  .grid-section {
+    padding: 50px 20px;
+    text-align: center;
+  }
+  
+  .grid-section h2 {
+    margin-bottom: 30px;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  
+  .card {
+    background: #111827;
+    padding: 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+    border: 1px solid transparent;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    border-color: #38bdf8;
+  }
+  
+  .card.active {
+    border-color: #22c55e;
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+  }
+  
+  .icon {
+    font-size: 30px;
+    margin-bottom: 10px;
+  }
+  
+  /* INFO */
+  .info-banner {
+    background: #0f172a;
+    padding: 40px 20px;
+    text-align: center;
+    border-top: 1px solid #1f2937;
+    border-bottom: 1px solid #1f2937;
+  }
+  
+  /* STATS */
+  .stats-section {
+    display: flex;
+    justify-content: space-around;
+    padding: 40px 20px;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .stat {
+    text-align: center;
+  }
+  
+  .stat h3 {
+    font-size: 28px;
+    color: #38bdf8;
+  }
+  
+  /* FOOTER CTA */
+  .footer-cta {
+    text-align: center;
+    padding: 60px 20px;
+    background: #0f172a;
+  }
+  
+  /* SCROLL TOP */
+  .scroll-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #38bdf8;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .cta-btn {
+    display: inline-block;   /* FIX OVERLAP ISSUE */
+    text-decoration: none;   /* removes underline from Link */
+    padding: 12px 20px;
+    border: none;
+    background: #38bdf8;
+    color: black;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .cta-btn:hover {
+    background: #0ea5e9;
+    transform: scale(1.05);
+  }

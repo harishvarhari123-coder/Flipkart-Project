@@ -1,0 +1,169 @@
+/* PAGE WRAPPER */
+.explore-security-page {
+    width: 100%;
+    min-height: 100vh;
+    background: #0b1220;
+    color: #ffffff;
+    font-family: "Segoe UI", sans-serif;
+  }
+  
+  /* HERO */
+  .hero-section {
+    padding: 80px 20px;
+    text-align: center;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+  }
+  
+  .hero-section h1 {
+    font-size: 42px;
+    margin-bottom: 15px;
+    font-weight: 700;
+  }
+  
+  .hero-section p {
+    max-width: 700px;
+    margin: auto;
+    font-size: 16px;
+    color: #cbd5e1;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+  
+  /* BUTTON (LINK STYLE) */
+  .primary-btn {
+    display: inline-block;
+    padding: 14px 28px;
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: 0.3s ease;
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25);
+  }
+  
+  .primary-btn:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+  }
+  
+  /* SECTIONS */
+  .modules-section,
+  .process-section,
+  .benefits-section,
+  .stats-section,
+  .cta-section {
+    padding: 60px 20px;
+    text-align: center;
+  }
+  
+  /* HEADINGS */
+  .modules-section h2,
+  .process-section h2,
+  .benefits-section h2,
+  .stats-section h2,
+  .cta-section h2 {
+    font-size: 30px;
+    margin-bottom: 40px;
+  }
+  
+  /* GRID */
+  .grid,
+  .benefits-grid,
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    max-width: 1100px;
+    margin: auto;
+  }
+  
+  /* CARD */
+  .card,
+  .step-card,
+  .stat,
+  .benefit {
+    background: #111827;
+    padding: 20px;
+    border-radius: 12px;
+    transition: 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  .card:hover,
+  .step-card:hover,
+  .stat:hover,
+  .benefit:hover {
+    transform: translateY(-5px);
+    background: #1f2937;
+  }
+  
+  /* ICON */
+  .icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+  
+  /* PROCESS STEP */
+  .step-card span {
+    display: inline-block;
+    font-size: 18px;
+    font-weight: bold;
+    color: #60a5fa;
+    margin-bottom: 10px;
+  }
+  
+  /* TEXT */
+  .card h3,
+  .step-card h3,
+  .stat h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .card p,
+  .step-card p,
+  .stat p {
+    font-size: 14px;
+    color: #cbd5e1;
+  }
+  
+  /* STATS */
+  .stat h3 {
+    font-size: 26px;
+    color: #3b82f6;
+  }
+  
+  /* BENEFITS */
+  .benefit {
+    font-size: 14px;
+    color: #e2e8f0;
+  }
+  
+  /* CTA SECTION */
+  .cta-section {
+    background: linear-gradient(135deg, #1e3a8a, #1e293b);
+    padding: 80px 20px;
+  }
+  
+  .cta-section h2 {
+    margin-bottom: 25px;
+  }
+  
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .hero-section h1 {
+      font-size: 30px;
+    }
+  
+    .hero-section p {
+      font-size: 14px;
+    }
+  
+    .primary-btn {
+      padding: 12px 20px;
+      font-size: 14px;
+    }
+  }

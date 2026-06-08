@@ -1,0 +1,293 @@
+import React, { useEffect, useRef } from "react";
+import "./Secure.css";
+
+const paymentMethods = [
+  {
+    icon: "💳",
+    title: "Credit & Debit Cards",
+    desc: "Visa, Mastercard, RuPay, and American Express accepted",
+    badges: ["Visa", "Mastercard", "RuPay", "Amex"]
+  },
+  {
+    icon: "📱",
+    title: "UPI Payments",
+    desc: "Google Pay, PhonePe, Paytm, and all UPI apps",
+    badges: ["GPay", "PhonePe", "Paytm"]
+  },
+  {
+    icon: "🏦",
+    title: "Net Banking",
+    desc: "All major Indian banks supported instantly",
+    badges: ["SBI", "HDFC", "ICICI", "Axis"]
+  },
+  {
+    icon: "💰",
+    title: "Wallets",
+    desc: "Paytm, PhonePe, Amazon Pay, and more",
+    badges: ["Paytm", "PhonePe", "Amazon Pay"]
+  },
+  {
+    icon: "💵",
+    title: "Cash on Delivery",
+    desc: "Pay when you receive your order",
+    badges: ["COD Available"]
+  },
+  {
+    icon: "🔄",
+    title: "EMI Options",
+    desc: "No-cost EMI available on select cards",
+    badges: ["0% Interest"]
+  }
+];
+
+const securityFeatures = [
+  {
+    icon: "🔐",
+    iconColor: "icon-purple",
+    pill: "SSL secured",
+    pillColor: "pill-purple",
+    title: "256-bit SSL Encryption",
+    desc: "All data transmitted is protected with bank-grade encryption."
+  },
+  {
+    icon: "🛡️",
+    iconColor: "icon-blue",
+    pill: "Level 1",
+    pillColor: "pill-blue",
+    title: "PCI-DSS Certified",
+    desc: "We partner with PCI-DSS level 1 compliant payment processors."
+  },
+  {
+    icon: "🔑",
+    iconColor: "icon-amber",
+    pill: "OTP protected",
+    pillColor: "pill-amber",
+    title: "3D Secure Verification",
+    desc: "Add an extra layer of OTP authentication on every transaction."
+  },
+  {
+    icon: "👁️",
+    iconColor: "icon-teal",
+    pill: "Real-time",
+    pillColor: "pill-teal",
+    title: "AI Fraud Detection",
+    desc: "Our advanced AI monitors every transaction in real time."
+  }
+];
+
+const trustedPartners = [
+  { name: "Razorpay", logo: "💎" },
+  { name: "Paytm", logo: "💙" },
+  { name: "PhonePe", logo: "💜" },
+  { name: "Google Pay", logo: "🔵" },
+  { name: "Visa", logo: "💳" },
+  { name: "Mastercard", logo: "🔴" }
+];
+
+export default function SecurePayment() {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.focus();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, []);
+
+  return (
+    <div className="secure-payment-page" ref={containerRef} tabIndex={0}>
+
+      {/* ── Hero ── */}
+      <div className="payment-hero">
+        <div className="hero-badge">
+          <span className="badge-icon">🔐</span>
+          <span className="badge-text">100% SECURE PAYMENTS</span>
+        </div>
+        <h1 className="payment-title">Safe & Secure Payments</h1>
+        <p className="payment-subtitle">
+          Shop with confidence. Your payment information is protected with
+          industry-leading encryption and security standards.
+        </p>
+        <div className="hero-shield-icon">💳</div>
+      </div>
+
+      {/* ── Payment Methods ── */}
+      <section className="payment-methods-section">
+        <div className="section-header">
+          <h2 className="section-title">Multiple Payment Options</h2>
+          <div className="section-divider" />
+          <p className="section-subtitle">Choose your preferred payment method</p>
+        </div>
+
+        <div className="payment-methods-grid">
+          {paymentMethods.map((method, index) => (
+            <div className="payment-card" key={index}>
+              <div className="payment-icon">{method.icon}</div>
+              <h3 className="payment-method-title">{method.title}</h3>
+              <p className="payment-method-desc">{method.desc}</p>
+              <div className="payment-badges">
+                {method.badges.map((badge, i) => (
+                  <span className="payment-badge" key={i}>{badge}</span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Security Features ── */}
+      <section className="security-features-section">
+        <div className="section-header">
+          <h2 className="section-title">Why Your Payments Are Safe</h2>
+          <div className="section-divider" />
+          <p className="section-subtitle">Enterprise-grade protection on every transaction</p>
+        </div>
+
+        <div className="security-grid">
+          {securityFeatures.map((feature, index) => (
+            <div className="security-feature-card" key={index}>
+              <div className={`feature-icon-wrap ${feature.iconColor}`}>
+                {feature.icon}
+              </div>
+              <div className="feature-body">
+                <h4 className="feature-title">{feature.title}</h4>
+                <p className="feature-desc">{feature.desc}</p>
+                <span className={`feature-pill ${feature.pillColor}`}>
+                  {feature.pill}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── How It Works ── */}
+      <section className="how-it-works-section">
+        <div className="section-header">
+          <h2 className="section-title">How Secure Payment Works</h2>
+          <div className="section-divider" />
+        </div>
+
+        <div className="steps-container">
+          <div className="step-item">
+            <div className="step-number">1</div>
+            <div className="step-content">
+              <h4>Choose Payment Method</h4>
+              <p>Select from cards, UPI, net banking, wallets, or COD</p>
+            </div>
+          </div>
+
+          <div className="step-arrow">→</div>
+
+          <div className="step-item">
+            <div className="step-number">2</div>
+            <div className="step-content">
+              <h4>Secure Verification</h4>
+              <p>OTP verification ensures only you can authorize</p>
+            </div>
+          </div>
+
+          <div className="step-arrow">→</div>
+
+          <div className="step-item">
+            <div className="step-number">3</div>
+            <div className="step-content">
+              <h4>Payment Complete</h4>
+              <p>Instant confirmation and order processing</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Trusted Partners ── */}
+      <section className="trusted-partners-section">
+        <div className="section-header">
+          <h2 className="section-title">Trusted Payment Partners</h2>
+          <div className="section-divider" />
+          <p className="section-subtitle">
+            We work with India's most trusted payment providers
+          </p>
+        </div>
+
+        <div className="partners-grid">
+          {trustedPartners.map((partner, index) => (
+            <div className="partner-card" key={index}>
+              <div className="partner-logo">{partner.logo}</div>
+              <p className="partner-name">{partner.name}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Money Back Guarantee ── */}
+      <section className="guarantee-section">
+        <div className="guarantee-card">
+          <div className="guarantee-icon">💯</div>
+          <h3 className="guarantee-title">100% Money Back Guarantee</h3>
+          <p className="guarantee-desc">
+            If you face any payment issues or unauthorized transactions, we ensure
+            a full refund within 5–7 business days. Your money is safe with us.
+          </p>
+          <div className="guarantee-features">
+            <div className="guarantee-item">
+              <span className="check-icon">✓</span>
+              <span>Instant Refunds</span>
+            </div>
+            <div className="guarantee-item">
+              <span className="check-icon">✓</span>
+              <span>24/7 Support</span>
+            </div>
+            <div className="guarantee-item">
+              <span className="check-icon">✓</span>
+              <span>Buyer Protection</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FAQ ── */}
+      <section className="faq-section">
+        <div className="section-header">
+          <h2 className="section-title">Common Questions</h2>
+          <div className="section-divider" />
+        </div>
+
+        <div className="faq-container">
+          <div className="faq-item">
+            <h4 className="faq-question">Is it safe to save my card details?</h4>
+            <p className="faq-answer">
+              Yes, we use tokenization. Your actual card details are never stored.
+              Only encrypted tokens are saved for future convenience.
+            </p>
+          </div>
+
+          <div className="faq-item">
+            <h4 className="faq-question">What if my payment fails?</h4>
+            <p className="faq-answer">
+              If payment fails, the amount will be auto-refunded to your account
+              within 5–7 business days. You can retry with another payment method.
+            </p>
+          </div>
+
+          <div className="faq-item">
+            <h4 className="faq-question">Are there any hidden charges?</h4>
+            <p className="faq-answer">
+              No hidden charges. The amount shown at checkout is final. COD orders
+              may have a nominal handling charge clearly mentioned at checkout.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Footer ── */}
+      <div className="payment-footer">
+        <p className="footer-note">
+          <strong>Need Help?</strong> Contact our payment support team at{" "}
+          <a href="mailto:payments@harikart.com">payments@harikart.com</a> or call{" "}
+          <a href="tel:18001234567">1800-123-4567</a> (Toll Free)
+        </p>
+      </div>
+
+    </div>
+  );
+}

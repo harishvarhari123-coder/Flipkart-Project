@@ -1,0 +1,368 @@
+.pci-page {
+    width: 100%;
+    background: #f8fafc;
+    color: #1e293b;
+  }
+  
+  /* Hero Section */
+  .pci-hero {
+    position: relative;
+    min-height: 80vh;
+    background: linear-gradient(135deg, #0f172a, #1e40af);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 100px 20px;
+    overflow: hidden;
+  }
+  
+  .pci-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25);
+  }
+  
+  .pci-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+  }
+  
+  .pci-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    padding: 10px 18px;
+    border-radius: 30px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  
+  .pci-hero h1 {
+    font-size: 4rem;
+    color: white;
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+  
+  .pci-hero h1 span {
+    color: #60a5fa;
+  }
+  
+  .pci-hero p {
+    color: #dbeafe;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 35px;
+  }
+  
+  .hero-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .primary-btn {
+    padding: 14px 30px;
+    border: none;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .primary-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-3px);
+  }
+  
+  .secondary-btn {
+    padding: 14px 30px;
+    border: 2px solid white;
+    border-radius: 10px;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+  
+    margin-top: 23px; /* 👈 move button down */
+  }
+  
+  .secondary-btn:hover {
+    background: white;
+    color: #1e3a8a;
+  }
+  
+  /* Sections */
+  .section-header {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto 60px;
+  }
+  
+  .section-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+  }
+  
+  .section-header p {
+    font-size: 1.05rem;
+    color: #64748b;
+    line-height: 1.8;
+  }
+  
+  /* Overview */
+  .pci-overview {
+    padding: 90px 20px;
+  }
+  
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    gap: 25px;
+    max-width: 1300px;
+    margin: auto;
+  }
+  
+  .stat-card {
+    background: white;
+    border-radius: 20px;
+    padding: 35px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,.06);
+    transition: .3s;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-8px);
+  }
+  
+  .stat-card h3 {
+    font-size: 2.4rem;
+    color: #2563eb;
+  }
+  
+  .stat-card p {
+    margin-top: 10px;
+    color: #64748b;
+  }
+  
+  /* Features */
+  .features-section {
+    padding: 90px 20px;
+  }
+  
+  .features-grid {
+    max-width: 1300px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 30px;
+  }
+  
+  .feature-card {
+    background: white;
+    border-radius: 20px;
+    padding: 35px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.06);
+    transition: .3s;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-10px);
+  }
+  
+  .feature-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 16px;
+    background: #dbeafe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    margin-bottom: 20px;
+  }
+  
+  .feature-card h3 {
+    margin-bottom: 12px;
+  }
+  
+  .feature-card p {
+    color: #64748b;
+    line-height: 1.8;
+  }
+  
+  /* Timeline */
+  .process-section {
+    padding: 90px 20px;
+  }
+  
+  .timeline {
+    max-width: 1300px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+    gap: 25px;
+  }
+  
+  .timeline-card {
+    background: white;
+    padding: 35px;
+    border-radius: 20px;
+    position: relative;
+    box-shadow: 0 8px 25px rgba(0,0,0,.06);
+  }
+  
+  .timeline-step {
+    display: inline-flex;
+    width: 60px;
+    height: 60px;
+    background: #2563eb;
+    color: white;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .timeline-card h3 {
+    margin-bottom: 10px;
+  }
+  
+  .timeline-card p {
+    color: #64748b;
+    line-height: 1.7;
+  }
+  
+  /* Banner */
+  .compliance-banner {
+    margin: 80px auto;
+    max-width: 1300px;
+    border-radius: 30px;
+    overflow: hidden;
+    background: linear-gradient(135deg,#2563eb,#1e40af);
+    color: white;
+  }
+  
+  .banner-content {
+    padding: 80px 40px;
+    text-align: center;
+  }
+  
+  .banner-content h2 {
+    font-size: 2.8rem;
+    margin-bottom: 15px;
+  }
+  
+  .banner-content p {
+    font-size: 1.1rem;
+  }
+  
+  /* FAQ */
+  .faq-section {
+    padding: 90px 20px;
+  }
+  
+  .faq-grid {
+    max-width: 1300px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
+    gap: 25px;
+  }
+  
+  .faq-card {
+    background: white;
+    border-radius: 20px;
+    padding: 35px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.06);
+  }
+  
+  .faq-card h3 {
+    margin-bottom: 15px;
+  }
+  
+  .faq-card p {
+    color: #64748b;
+    line-height: 1.8;
+  }
+  
+  /* CTA */
+  .cta-section {
+    text-align: center;
+    padding: 100px 20px;
+    background: white;
+  }
+  
+  .cta-section h2 {
+    font-size: 3rem;
+    margin-bottom: 15px;
+  }
+  
+  .cta-section p {
+    max-width: 700px;
+    margin: 0 auto 30px;
+    color: #64748b;
+    line-height: 1.8;
+  }
+  
+  /* Responsive */
+  @media (max-width: 992px) {
+    .pci-hero h1 {
+      font-size: 3rem;
+    }
+  
+    .section-header h2 {
+      font-size: 2rem;
+    }
+  
+    .banner-content h2 {
+      font-size: 2rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .pci-hero {
+      min-height: auto;
+      padding: 80px 20px;
+    }
+  
+    .pci-hero h1 {
+      font-size: 2.4rem;
+    }
+  
+    .pci-hero p {
+      font-size: 1rem;
+    }
+  
+    .cta-section h2 {
+      font-size: 2rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .pci-hero h1 {
+      font-size: 2rem;
+    }
+  
+    .section-header h2 {
+      font-size: 1.7rem;
+    }
+  
+    .banner-content h2 {
+      font-size: 1.7rem;
+    }
+  
+    .primary-btn,
+    .secondary-btn {
+      width: 100%;
+    }
+  }

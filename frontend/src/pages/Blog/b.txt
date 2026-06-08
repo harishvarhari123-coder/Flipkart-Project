@@ -1,0 +1,930 @@
+import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
+
+/* ═══════════════════════════════════════════════════════════
+   GLOBAL STYLES
+═══════════════════════════════════════════════════════════ */
+const STYLES = `
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #080b12;
+  --bg2:      #0d1117;
+  --bg3:      #111622;
+  --bg4:      #161c2e;
+  --surface:  #1a2035;
+  --surface2: #1f2740;
+  --border:   rgba(255,255,255,0.07);
+  --border2:  rgba(255,255,255,0.13);
+  --border3:  rgba(99,179,255,0.25);
+
+  --neon:     #63b3ff;
+  --neon2:    #a78bfa;
+  --neon3:    #34d399;
+  --neon4:    #fb923c;
+  --neon5:    #f472b6;
+  --danger:   #f87171;
+
+  --text:     #e8edf8;
+  --text2:    #8b99b8;
+  --text3:    #4e5e7a;
+
+  --serif:    'Instrument Serif', Georgia, serif;
+  --sans:     'Syne', system-ui, sans-serif;
+  --mono:     'JetBrains Mono', monospace;
+
+  --r:        6px;
+  --r2:       12px;
+  --r3:       18px;
+  --glow:     0 0 30px rgba(99,179,255,0.12);
+  --glow2:    0 0 60px rgba(99,179,255,0.08);
+}
+
+html { scroll-behavior: smooth; }
+body, #root { background: var(--bg); min-height: 100vh; }
+
+.blog-root {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  position: relative;
+}
+
+.blog-root::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(99,179,255,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(167,139,250,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 60% 40%, rgba(52,211,153,0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: rgba(8,11,18,0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header-left { display: flex; align-items: center; gap: 14px; }
+.header-logo {
+  font-family: var(--serif);
+  font-size: 1.55rem;
+  font-style: italic;
+  background: linear-gradient(135deg, var(--neon) 0%, var(--neon2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
+}
+.header-badge {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--neon3);
+  background: rgba(52,211,153,0.1);
+  border: 1px solid rgba(52,211,153,0.2);
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+.header-right { display: flex; align-items: center; gap: 18px; }
+.header-stat {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.header-stat-num {
+  font-family: var(--mono);
+  color: var(--neon);
+  font-size: 0.85rem;
+}
+
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 2rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  animation: alertIn 0.25s ease;
+  position: relative;
+  z-index: 10;
+}
+@keyframes alertIn { from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none} }
+.alert.error   { background: rgba(248,113,113,0.1); border-bottom:1px solid rgba(248,113,113,0.2); color:#fca5a5; }
+.alert.success { background: rgba(52,211,153,0.08); border-bottom:1px solid rgba(52,211,153,0.2);  color:#6ee7b7; }
+
+.layout {
+  position: relative;
+  z-index: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 2rem 5rem;
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.sidebar { position: sticky; top: 78px; display: flex; flex-direction: column; gap: 1.25rem; }
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.panel:hover { border-color: var(--border2); }
+
+.panel-head {
+  padding: 14px 18px 12px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.panel-head-icon {
+  width: 28px; height: 28px;
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem;
+}
+.panel-head-icon.blue   { background: rgba(99,179,255,0.12);  color: var(--neon);  }
+.panel-head-icon.purple { background: rgba(167,139,250,0.12); color: var(--neon2); }
+.panel-head-icon.green  { background: rgba(52,211,153,0.12);  color: var(--neon3); }
+.panel-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+.compose-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 13px; }
+
+.field-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.field-counter { font-family: var(--mono); font-weight: 500; color: var(--text3); }
+
+.field-input, .field-textarea {
+  width: 100%;
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 10px 13px;
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s;
+  resize: none;
+}
+.field-input:focus, .field-textarea:focus {
+  border-color: var(--neon);
+  box-shadow: 0 0 0 3px rgba(99,179,255,0.1);
+  background: var(--bg4);
+}
+.field-input::placeholder, .field-textarea::placeholder { color: var(--text3); font-weight: 400; }
+.field-textarea { height: 110px; line-height: 1.65; }
+
+.ai-assist-row { display: flex; gap: 8px; }
+.btn-ai {
+  flex: 1;
+  padding: 9px 8px;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--neon2);
+  background: rgba(167,139,250,0.08);
+  border: 1px solid rgba(167,139,250,0.2);
+  border-radius: var(--r);
+  cursor: pointer;
+  transition: all 0.18s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.btn-ai:hover:not(:disabled) {
+  background: rgba(167,139,250,0.15);
+  border-color: rgba(167,139,250,0.4);
+  box-shadow: 0 0 20px rgba(167,139,250,0.15);
+}
+.btn-ai:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.ai-thinking { display: inline-flex; gap: 3px; align-items: center; }
+.ai-thinking span {
+  width: 4px; height: 4px;
+  background: var(--neon2);
+  border-radius: 50%;
+  animation: pulse 1s ease-in-out infinite;
+}
+.ai-thinking span:nth-child(2) { animation-delay: 0.15s; }
+.ai-thinking span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes pulse { 0%,100%{opacity:0.3;transform:scale(0.8)}50%{opacity:1;transform:scale(1)} }
+
+.ai-result {
+  background: rgba(167,139,250,0.06);
+  border: 1px solid rgba(167,139,250,0.15);
+  border-radius: var(--r);
+  padding: 12px 13px;
+  font-size: 0.82rem;
+  color: var(--text2);
+  line-height: 1.65;
+  animation: alertIn 0.2s ease;
+}
+.ai-result-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 8px;
+}
+.ai-result-label {
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--neon2);
+}
+.btn-use-ai {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--neon3);
+  background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.2);
+  border-radius: 4px; padding: 3px 8px; cursor: pointer; transition: all 0.15s;
+}
+.btn-use-ai:hover { background: rgba(52,211,153,0.18); }
+.ai-result-text { white-space: pre-wrap; }
+
+.btn-publish {
+  width: 100%;
+  padding: 12px 16px;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: linear-gradient(135deg, var(--neon) 0%, var(--neon2) 100%);
+  border: none;
+  border-radius: var(--r);
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.btn-publish:hover:not(:disabled) { filter: brightness(1.1); box-shadow: var(--glow); }
+.btn-publish:active:not(:disabled) { transform: scale(0.975); }
+.btn-publish:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
+.stat-cell { background: var(--surface); padding: 14px 16px; }
+.stat-val {
+  font-family: var(--mono); font-size: 1.4rem; font-weight: 500;
+  color: var(--neon); line-height: 1; margin-bottom: 4px;
+}
+.stat-label {
+  font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text3);
+}
+
+.feed { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.discovery {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r2); padding: 12px 16px;
+}
+.search-wrap { position: relative; flex: 1; }
+.search-icon-el {
+  position: absolute; left: 11px; top: 50%;
+  transform: translateY(-50%); font-size: 0.85rem;
+  color: var(--text3); pointer-events: none;
+}
+.search-input {
+  width: 100%; font-family: var(--sans); font-size: 0.88rem;
+  font-weight: 500; color: var(--text); background: var(--bg3);
+  border: 1px solid var(--border); border-radius: var(--r);
+  padding: 9px 11px 9px 34px; outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+.search-input:focus { border-color: var(--neon); box-shadow: 0 0 0 3px rgba(99,179,255,0.08); }
+.search-input::placeholder { color: var(--text3); font-weight: 400; }
+
+.btn-filter {
+  flex-shrink: 0; padding: 9px 14px; font-family: var(--sans);
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.07em;
+  text-transform: uppercase; color: var(--text2); background: var(--bg3);
+  border: 1px solid var(--border); border-radius: var(--r);
+  cursor: pointer; transition: all 0.18s;
+  display: flex; align-items: center; gap: 6px; white-space: nowrap;
+}
+.btn-filter:hover { border-color: var(--border2); color: var(--text); }
+.btn-filter.active { background: rgba(99,179,255,0.1); border-color: rgba(99,179,255,0.3); color: var(--neon); }
+.filter-count {
+  font-family: var(--mono); font-size: 0.68rem; font-weight: 500;
+  color: var(--text3); background: var(--surface2); padding: 1px 6px; border-radius: 10px;
+}
+.btn-filter.active .filter-count { color: var(--neon); background: rgba(99,179,255,0.15); }
+
+.history-panel {
+  background: var(--surface); border: 1px solid var(--border3);
+  border-radius: var(--r2); overflow: hidden;
+  animation: alertIn 0.2s ease; box-shadow: var(--glow);
+}
+.history-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 18px; background: rgba(99,179,255,0.05);
+  border-bottom: 1px solid var(--border);
+}
+.history-title {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--neon);
+  display: flex; align-items: center; gap: 8px;
+}
+.history-close {
+  width: 26px; height: 26px; border-radius: 6px;
+  background: none; border: 1px solid var(--border);
+  color: var(--text3); cursor: pointer; font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.history-close:hover { background: var(--surface2); color: var(--text); border-color: var(--border2); }
+
+.history-search { padding: 10px 18px; border-bottom: 1px solid var(--border); }
+.history-search-input {
+  width: 100%; font-family: var(--sans); font-size: 0.82rem;
+  color: var(--text); background: var(--bg3);
+  border: 1px solid var(--border); border-radius: var(--r);
+  padding: 7px 11px; outline: none; transition: border-color 0.18s;
+}
+.history-search-input:focus { border-color: var(--neon); }
+.history-search-input::placeholder { color: var(--text3); }
+
+.history-list { max-height: 320px; overflow-y: auto; padding: 6px 0; }
+.history-list::-webkit-scrollbar { width: 3px; }
+.history-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 10px; }
+
+.history-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 18px; cursor: pointer; transition: background 0.15s;
+}
+.history-item:hover { background: var(--surface2); }
+.history-item-num { font-family: var(--mono); font-size: 0.65rem; color: var(--text3); width: 18px; flex-shrink: 0; }
+.history-item-info { flex: 1; min-width: 0; }
+.history-item-title {
+  font-size: 0.83rem; font-weight: 600; color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.history-item-meta { font-size: 0.68rem; color: var(--text3); margin-top: 2px; font-family: var(--mono); }
+.history-item-actions { display: flex; align-items: center; gap: 6px; opacity: 0; transition: opacity 0.15s; }
+.history-item:hover .history-item-actions { opacity: 1; }
+
+.btn-h-search, .btn-h-delete {
+  width: 26px; height: 26px; border-radius: 5px;
+  border: 1px solid var(--border); background: none;
+  cursor: pointer; font-size: 0.75rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.btn-h-search { color: var(--neon); }
+.btn-h-search:hover { background: rgba(99,179,255,0.12); border-color: rgba(99,179,255,0.3); }
+.btn-h-delete { color: var(--danger); }
+.btn-h-delete:hover { background: rgba(248,113,113,0.12); border-color: rgba(248,113,113,0.3); }
+.history-empty { padding: 30px 18px; text-align: center; font-size: 0.82rem; color: var(--text3); }
+
+.tag-filter-bar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.tag-filter-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); }
+.tag-pill {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em;
+  padding: 4px 10px; border-radius: 20px;
+  background: var(--surface2); border: 1px solid var(--border);
+  color: var(--text2); cursor: pointer; transition: all 0.15s;
+}
+.tag-pill:hover { border-color: var(--border2); color: var(--text); }
+.tag-pill.active { background: rgba(99,179,255,0.12); border-color: rgba(99,179,255,0.3); color: var(--neon); }
+
+.feed-meta { display: flex; align-items: center; justify-content: space-between; }
+.feed-meta-text { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text3); }
+.feed-meta-text strong { color: var(--neon); font-family: var(--mono); }
+
+.sort-select {
+  font-family: var(--sans); font-size: 0.72rem; font-weight: 700;
+  color: var(--text2); background: var(--surface2);
+  border: 1px solid var(--border); border-radius: var(--r);
+  padding: 5px 10px; outline: none; cursor: pointer; transition: border-color 0.15s;
+}
+.sort-select:focus { border-color: var(--neon); }
+.sort-select option { background: var(--bg2); }
+
+.blogs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.1rem; }
+
+.blog-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r2); padding: 1.2rem 1.2rem 1rem;
+  display: flex; flex-direction: column; gap: 0.65rem;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  position: relative; overflow: hidden;
+  animation: cardIn 0.3s ease both;
+}
+@keyframes cardIn { from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none} }
+.blog-card:hover {
+  border-color: var(--border3); transform: translateY(-3px);
+  box-shadow: var(--glow), 0 8px 30px rgba(0,0,0,0.3);
+}
+.blog-card::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--neon), var(--neon2)); opacity: 0; transition: opacity 0.2s;
+}
+.blog-card:hover::after { opacity: 1; }
+
+.card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.card-meta {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.04em;
+  color: var(--text3); font-family: var(--mono);
+}
+.card-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text3); }
+.card-readtime {
+  color: var(--neon3); background: rgba(52,211,153,0.08);
+  border: 1px solid rgba(52,211,153,0.15); padding: 2px 7px;
+  border-radius: 10px; font-size: 0.65rem;
+}
+.card-delete {
+  width: 26px; height: 26px; border-radius: 6px;
+  background: none; border: 1px solid transparent;
+  color: var(--text3); cursor: pointer; font-size: 0.8rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; flex-shrink: 0; opacity: 0;
+}
+.blog-card:hover .card-delete { opacity: 1; }
+.card-delete:hover { background: rgba(248,113,113,0.12); border-color: rgba(248,113,113,0.3); color: var(--danger); }
+
+.card-title {
+  font-family: var(--serif); font-size: 1.12rem; font-style: italic;
+  line-height: 1.35; color: var(--text); letter-spacing: -0.01em;
+}
+.card-body {
+  font-size: 0.83rem; font-weight: 400; color: var(--text2); line-height: 1.7;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+.card-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.ctag {
+  font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 3px 8px; border-radius: 4px;
+  cursor: pointer; transition: all 0.15s;
+}
+.ctag-blue   { color: var(--neon);  background: rgba(99,179,255,0.08);  border: 1px solid rgba(99,179,255,0.15);  }
+.ctag-purple { color: var(--neon2); background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.15); }
+.ctag-green  { color: var(--neon3); background: rgba(52,211,153,0.08);  border: 1px solid rgba(52,211,153,0.15);  }
+.ctag-orange { color: var(--neon4); background: rgba(251,146,60,0.08);  border: 1px solid rgba(251,146,60,0.15);  }
+.ctag-pink   { color: var(--neon5); background: rgba(244,114,182,0.08); border: 1px solid rgba(244,114,182,0.15); }
+.ctag:hover  { filter: brightness(1.3); }
+
+.loader { grid-column:1/-1; display:flex; flex-direction:column; align-items:center; gap:14px; padding:80px 20px; color:var(--text3); }
+.spinner { width:32px; height:32px; border:2px solid var(--surface2); border-top-color:var(--neon); border-radius:50%; animation:spin 0.7s linear infinite; }
+@keyframes spin { to{transform:rotate(360deg)} }
+.loader-text { font-size:0.72rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; }
+
+.empty-state { grid-column:1/-1; display:flex; flex-direction:column; align-items:center; padding:80px 20px; gap:12px; }
+.empty-glyph { font-size:2.5rem; opacity:0.15; margin-bottom:6px; }
+.empty-title { font-family:var(--serif); font-size:1.3rem; font-style:italic; color:var(--text2); }
+.empty-sub { font-size:0.82rem; color:var(--text3); }
+.btn-reset {
+  margin-top:6px; font-family:var(--sans); font-size:0.72rem; font-weight:700;
+  letter-spacing:0.08em; text-transform:uppercase; color:var(--neon);
+  background:rgba(99,179,255,0.08); border:1px solid rgba(99,179,255,0.2);
+  border-radius:var(--r); padding:9px 18px; cursor:pointer; transition:all 0.15s;
+}
+.btn-reset:hover { background:rgba(99,179,255,0.15); box-shadow:var(--glow); }
+
+.modal-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.65);
+  backdrop-filter:blur(4px); z-index:500;
+  display:flex; align-items:center; justify-content:center;
+  animation:alertIn 0.15s ease;
+}
+.modal {
+  background:var(--surface); border:1px solid var(--border2);
+  border-radius:var(--r3); padding:2rem; max-width:360px; width:90%;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5),var(--glow);
+}
+.modal-title { font-family:var(--serif); font-size:1.2rem; font-style:italic; color:var(--text); margin-bottom:10px; }
+.modal-sub { font-size:0.83rem; color:var(--text2); line-height:1.6; margin-bottom:1.5rem; }
+.modal-actions { display:flex; gap:10px; }
+.btn-cancel {
+  flex:1; padding:10px; font-family:var(--sans); font-size:0.78rem; font-weight:700;
+  letter-spacing:0.06em; text-transform:uppercase; color:var(--text2);
+  background:var(--surface2); border:1px solid var(--border); border-radius:var(--r);
+  cursor:pointer; transition:all 0.15s;
+}
+.btn-cancel:hover { border-color:var(--border2); color:var(--text); }
+.btn-confirm-del {
+  flex:1; padding:10px; font-family:var(--sans); font-size:0.78rem; font-weight:700;
+  letter-spacing:0.06em; text-transform:uppercase; color:var(--danger);
+  background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.3);
+  border-radius:var(--r); cursor:pointer; transition:all 0.15s;
+}
+.btn-confirm-del:hover { background:rgba(248,113,113,0.2); }
+
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--surface2); border-radius:10px; }
+
+@media(max-width:1024px){ .layout{grid-template-columns:300px 1fr;gap:1.5rem;} }
+@media(max-width:860px) { .layout{grid-template-columns:1fr;} .sidebar{position:static;} }
+@media(max-width:600px) { .header{padding:0 1rem;} .layout{padding:1.2rem 1rem 3rem;} .header-right{display:none;} }
+`;
+
+const API = "http://localhost:5000";
+const readTime = (t) => Math.max(1, Math.ceil((t||"").trim().split(/\s+/).length / 200));
+const TAG_COLORS = ["blue","purple","green","orange","pink"];
+const tagColor = (tag) => TAG_COLORS[Math.abs([...tag].reduce((a,c)=>a+c.charCodeAt(0),0)) % TAG_COLORS.length];
+const fmtDate = (d) => d ? new Date(d).toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"}) : "Just now";
+const fmtDateTime = (d) => d ? new Date(d).toLocaleString("en-IN",{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:true}) : "Just now";
+
+const Alert = ({ type, children }) => (
+  <div className={`alert ${type}`}>
+    <span style={{fontSize:"1rem"}}>{type==="error"?"⚠":"✓"}</span>
+    {children}
+  </div>
+);
+
+export default function Blog() {
+  const [blogs, setBlogs]             = useState([]);
+  const [title, setTitle]             = useState("");
+  const [content, setContent]         = useState("");
+  const [tags, setTags]               = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy]           = useState("newest");
+  const [activeTag, setActiveTag]     = useState("");
+  const [historyFilter, setHistoryFilter] = useState("");
+  const [isLoading, setIsLoading]     = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError]             = useState(null);
+  const [success, setSuccess]         = useState(null);
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+  const [aiMode, setAiMode]           = useState(null);
+  const [aiResult, setAiResult]       = useState("");
+  const [aiLoading, setAiLoading]     = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const feedRef = useRef(null);
+
+  const fetchBlogs = useCallback(async () => {
+    setIsLoading(true); setError(null);
+    try {
+      const res = await fetch(`${API}/blogs`);
+      if (!res.ok) throw new Error("Failed to load posts.");
+      const data = await res.json();
+      setBlogs(Array.isArray(data) ? data.reverse() : []);
+    } catch(e) { setError(e.message); }
+    finally { setIsLoading(false); }
+  }, []);
+
+  useEffect(() => { fetchBlogs(); }, [fetchBlogs]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!title.trim() || !content.trim()) return;
+    setIsSubmitting(true); setError(null); setSuccess(null);
+    const tagArray = tags.split(",").map(t=>t.trim().toLowerCase()).filter(Boolean);
+    const newBlog  = { title:title.trim(), content:content.trim(), tags:tagArray, date:new Date().toISOString() };
+    const tmpId    = `tmp_${Date.now()}`;
+    setBlogs(prev => [{ ...newBlog, id:tmpId }, ...prev]);
+    setTitle(""); setContent(""); setTags(""); setAiResult("");
+    try {
+      const res = await fetch(`${API}/blogs`,{
+        method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(newBlog)
+      });
+      if (!res.ok) throw new Error("Could not save post.");
+      const saved = await res.json();
+      setBlogs(prev => prev.map(b => b.id===tmpId ? {...b, id:saved.id} : b));
+      setSuccess("Post published successfully!");
+      setTimeout(()=>setSuccess(null), 3000);
+      feedRef.current?.scrollIntoView({behavior:"smooth",block:"start"});
+    } catch(e) {
+      setError(e.message);
+      setBlogs(prev => prev.filter(b => b.id!==tmpId));
+    } finally { setIsSubmitting(false); }
+  };
+
+  const handleDelete = async () => {
+    if (!deleteTarget) return;
+    const { id } = deleteTarget;
+    setDeleteTarget(null);
+    setBlogs(prev => prev.filter(b => b.id!==id));
+    try { await fetch(`${API}/blogs/${id}`,{method:"DELETE"}); }
+    catch { fetchBlogs(); }
+  };
+
+  const handleAI = async (mode) => {
+    setAiMode(mode); setAiLoading(true); setAiResult("");
+    let prompt = "";
+    if (mode==="title")   prompt = `Generate 3 catchy, creative blog post titles about: "${content||title||"AI and technology"}". Return just the titles, numbered 1-3.`;
+    if (mode==="content") prompt = `Write a compelling blog post introduction (3-4 paragraphs) about: "${title||"artificial intelligence"}". Be insightful. No markdown headers.`;
+    if (mode==="tags")    prompt = `Suggest 5 relevant tags for a blog post titled "${title||"AI blog"}" about: "${(content||"").slice(0,200)||"technology"}". Return just comma-separated tags, lowercase.`;
+    try {
+      const res = await fetch("https://api.anthropic.com/v1/messages",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({ model:"claude-sonnet-4-20250514", max_tokens:1000, messages:[{role:"user",content:prompt}] })
+      });
+      const data = await res.json();
+      setAiResult((data.content||[]).map(c=>c.text||"").join("").trim() || "No response.");
+    } catch { setAiResult("AI assist unavailable."); }
+    finally { setAiLoading(false); }
+  };
+
+  const applyAiResult = () => {
+    if (!aiResult) return;
+    if (aiMode==="title")   setTitle(aiResult.split("\n")[0].replace(/^[123]\.\s*/,""));
+    if (aiMode==="content") setContent(aiResult);
+    if (aiMode==="tags")    setTags(aiResult);
+    setAiResult(""); setAiMode(null);
+  };
+
+  const allTags = useMemo(() => {
+    const map = {};
+    blogs.forEach(b => (b.tags||[]).forEach(t => { map[t]=(map[t]||0)+1; }));
+    return Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,12).map(([t])=>t);
+  }, [blogs]);
+
+  const filteredBlogs = useMemo(() => {
+    let list = blogs.filter(b => {
+      const q = searchQuery.toLowerCase();
+      return (!q || b.title?.toLowerCase().includes(q) || b.content?.toLowerCase().includes(q))
+          && (!activeTag || (b.tags||[]).includes(activeTag));
+    });
+    if (sortBy==="oldest") list = [...list].reverse();
+    if (sortBy==="read")   list = [...list].sort((a,b)=>readTime(b.content)-readTime(a.content));
+    return list;
+  }, [blogs, searchQuery, activeTag, sortBy]);
+
+  const filteredHistory = useMemo(() => {
+    const q = historyFilter.toLowerCase();
+    return blogs.filter(b => !q || b.title?.toLowerCase().includes(q));
+  }, [blogs, historyFilter]);
+
+  const totalWords = useMemo(() => blogs.reduce((s,b)=>s+(b.content||"").split(/\s+/).length,0), [blogs]);
+  const avgRead = blogs.length ? Math.ceil(blogs.reduce((s,b)=>s+readTime(b.content),0)/blogs.length) : 0;
+
+  return (
+    <>
+      <style>{STYLES}</style>
+      <div className="blog-root">
+
+        <header className="header">
+          <div className="header-left">
+            <span className="header-logo">Neuron Blog</span>
+            <span className="header-badge">AI-Powered</span>
+          </div>
+          <div className="header-right">
+            <span className="header-stat">Posts <span className="header-stat-num">{blogs.length}</span></span>
+            <span className="header-stat">Words <span className="header-stat-num">{totalWords.toLocaleString()}</span></span>
+          </div>
+        </header>
+
+        {error   && <Alert type="error">{error}</Alert>}
+        {success && <Alert type="success">{success}</Alert>}
+
+        <div className="layout">
+
+          <aside className="sidebar">
+
+            {/* COMPOSE PANEL */}
+            <div className="panel">
+              <div className="panel-head">
+                <div className="panel-head-icon blue">✏</div>
+                <span className="panel-title">Compose</span>
+              </div>
+              <form className="compose-body" onSubmit={handleSubmit}>
+                <div>
+                  <div className="field-label">
+                    Title <span className="field-counter">{title.length}/120</span>
+                  </div>
+                  <input className="field-input" type="text" placeholder="Your headline here…"
+                    value={title} onChange={e=>setTitle(e.target.value)}
+                    disabled={isSubmitting} maxLength={120} required />
+                </div>
+                <div>
+                  <div className="field-label">Tags</div>
+                  <input className="field-input" type="text" placeholder="ai, tech, design"
+                    value={tags} onChange={e=>setTags(e.target.value)} disabled={isSubmitting} />
+                </div>
+                <div>
+                  <div className="field-label">Content</div>
+                  <textarea className="field-textarea" placeholder="Write something extraordinary…"
+                    value={content} onChange={e=>setContent(e.target.value)}
+                    disabled={isSubmitting} required />
+                </div>
+
+                <div className="ai-assist-row">
+                  {["title","content","tags"].map(m => (
+                    <button key={m} type="button" className="btn-ai"
+                      onClick={()=>handleAI(m)} disabled={aiLoading||isSubmitting}>
+                      ✦ {m.charAt(0).toUpperCase()+m.slice(1)}
+                    </button>
+                  ))}
+                </div>
+
+                {(aiLoading||aiResult) && (
+                  <div className="ai-result">
+                    <div className="ai-result-header">
+                      <span className="ai-result-label">✦ AI — {aiMode}</span>
+                      {!aiLoading && aiResult && (
+                        <button type="button" className="btn-use-ai" onClick={applyAiResult}>Use ↵</button>
+                      )}
+                    </div>
+                    {aiLoading
+                      ? <div className="ai-thinking"><span/><span/><span/></div>
+                      : <div className="ai-result-text">{aiResult}</div>
+                    }
+                  </div>
+                )}
+
+                <button type="submit" className="btn-publish" disabled={isSubmitting}>
+                  {isSubmitting ? "Publishing…" : "⬆ Publish Post"}
+                </button>
+              </form>
+            </div>
+
+            {/* STATS PANEL */}
+            <div className="panel">
+              <div className="panel-head">
+                <div className="panel-head-icon green">◈</div>
+                <span className="panel-title">Stats</span>
+              </div>
+              <div className="stats-grid">
+                <div className="stat-cell"><div className="stat-val">{blogs.length}</div><div className="stat-label">Total Posts</div></div>
+                <div className="stat-cell"><div className="stat-val">{allTags.length}</div><div className="stat-label">Unique Tags</div></div>
+                <div className="stat-cell"><div className="stat-val">{totalWords.toLocaleString()}</div><div className="stat-label">Total Words</div></div>
+                <div className="stat-cell"><div className="stat-val">{avgRead}m</div><div className="stat-label">Avg Read</div></div>
+              </div>
+            </div>
+
+          </aside>
+
+          {/* FEED */}
+          <section className="feed" ref={feedRef}>
+
+            <div className="discovery">
+              <div className="search-wrap">
+                <span className="search-icon-el">⌕</span>
+                <input className="search-input" type="text" placeholder="Search posts…"
+                  value={searchQuery} onChange={e=>setSearchQuery(e.target.value)} />
+              </div>
+              <button type="button" className={`btn-filter${isHistoryOpen?" active":""}`}
+                onClick={()=>setIsHistoryOpen(v=>!v)}>
+                ☰ History <span className="filter-count">{blogs.length}</span>
+              </button>
+            </div>
+
+            {isHistoryOpen && (
+              <div className="history-panel">
+                <div className="history-head">
+                  <span className="history-title">⏱ History — {blogs.length}</span>
+                  <button className="history-close" onClick={()=>setIsHistoryOpen(false)}>×</button>
+                </div>
+                <div className="history-search">
+                  <input className="history-search-input" type="text" placeholder="Filter history…"
+                    value={historyFilter} onChange={e=>setHistoryFilter(e.target.value)} />
+                </div>
+                {filteredHistory.length===0
+                  ? <div className="history-empty">No posts found.</div>
+                  : (
+                    <ul className="history-list">
+                      {filteredHistory.map((blog,i) => (
+                        <li key={blog.id} className="history-item">
+                          <span className="history-item-num">{String(i+1).padStart(2,"0")}</span>
+                          <div className="history-item-info">
+                            <div className="history-item-title">{blog.title}</div>
+                            <div className="history-item-meta">{fmtDateTime(blog.date)} · {readTime(blog.content)}m</div>
+                          </div>
+                          <div className="history-item-actions">
+                            <button className="btn-h-search" title="Search"
+                              onClick={()=>{setSearchQuery(blog.title);setIsHistoryOpen(false);}}>⌕</button>
+                            <button className="btn-h-delete" title="Delete"
+                              onClick={()=>setDeleteTarget({...blog,fromHistory:true})}>✕</button>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+              </div>
+            )}
+
+            {allTags.length>0 && (
+              <div className="tag-filter-bar">
+                <span className="tag-filter-label">Filter:</span>
+                <span className={`tag-pill${!activeTag?" active":""}`} onClick={()=>setActiveTag("")}>All</span>
+                {allTags.map(t => (
+                  <span key={t} className={`tag-pill${activeTag===t?" active":""}`}
+                    onClick={()=>setActiveTag(activeTag===t?"":t)}>#{t}</span>
+                ))}
+              </div>
+            )}
+
+            <div className="feed-meta">
+              <span className="feed-meta-text">
+                Showing <strong>{filteredBlogs.length}</strong> of {blogs.length} posts
+                {searchQuery && <> · "<strong>{searchQuery}</strong>"</>}
+              </span>
+              <select className="sort-select" value={sortBy} onChange={e=>setSortBy(e.target.value)}>
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
+                <option value="read">Longest read</option>
+              </select>
+            </div>
+
+            {isLoading && blogs.length===0 ? (
+              <div className="blogs-grid">
+                <div className="loader">
+                  <div className="spinner"/>
+                  <span className="loader-text">Loading feed…</span>
+                </div>
+              </div>
+            ) : filteredBlogs.length===0 ? (
+              <div className="blogs-grid">
+                <div className="empty-state">
+                  <div className="empty-glyph">◈</div>
+                  <h3 className="empty-title">Nothing here yet</h3>
+                  <p className="empty-sub">Try a different search or be the first to write.</p>
+                  {(searchQuery||activeTag) && (
+                    <button className="btn-reset" onClick={()=>{setSearchQuery("");setActiveTag("");}}>Clear filters</button>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="blogs-grid">
+                {filteredBlogs.map((blog,idx) => (
+                  <article className="blog-card" key={blog.id} style={{animationDelay:`${idx*0.04}s`}}>
+                    <div className="card-top">
+                      <div className="card-meta">
+                        <span>{fmtDate(blog.date)}</span>
+                        <span className="card-dot"/>
+                        <span className="card-readtime">{readTime(blog.content)} min</span>
+                      </div>
+                      <button className="card-delete" onClick={()=>setDeleteTarget(blog)} title="Delete">✕</button>
+                    </div>
+                    <h2 className="card-title">{blog.title}</h2>
+                    <p className="card-body">{blog.content}</p>
+                    {blog.tags?.length>0 && (
+                      <div className="card-footer">
+                        <div className="card-tags">
+                          {blog.tags.map((tag,i) => (
+                            <span key={i} className={`ctag ctag-${tagColor(tag)}`}
+                              onClick={()=>setActiveTag(activeTag===tag?"":tag)}>#{tag}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </article>
+                ))}
+              </div>
+            )}
+          </section>
+        </div>
+
+        {deleteTarget && (
+          <div className="modal-overlay" onClick={()=>setDeleteTarget(null)}>
+            <div className="modal" onClick={e=>e.stopPropagation()}>
+              <div className="modal-title">Delete this post?</div>
+              <p className="modal-sub">
+                "<strong>{deleteTarget.title}</strong>" will be permanently removed. This cannot be undone.
+              </p>
+              <div className="modal-actions">
+                <button className="btn-cancel" onClick={()=>setDeleteTarget(null)}>Cancel</button>
+                <button className="btn-confirm-del" onClick={handleDelete}>Delete</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+      </div>
+    </>
+  );
+}

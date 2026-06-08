@@ -1,0 +1,154 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .secure-banking-page {
+    font-family: Arial, sans-serif;
+    background: #f7f9fc;
+    color: #1f2937;
+  }
+  
+  .secure-hero {
+    background: linear-gradient(135deg, #0f4c81, #1e88e5);
+    color: white;
+    text-align: center;
+    padding: 100px 30px;
+  }
+  
+  .secure-hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+  
+  .secure-hero-content p {
+    max-width: 750px;
+    margin: auto;
+    line-height: 1.8;
+    font-size: 1.05rem;
+  }
+  
+  .secure-btn {
+    margin-top: 25px;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 10px;
+    background: white;
+    color: #1e88e5;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .secure-btn:hover {
+    transform: translateY(-3px);
+  }
+  
+  .secure-features,
+  .secure-process,
+  .secure-services,
+  .secure-stats,
+  .secure-faq {
+    padding: 80px 40px;
+  }
+  
+  .secure-features h2,
+  .secure-process h2,
+  .secure-services h2,
+  .secure-stats h2,
+  .secure-faq h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #0f4c81;
+  }
+  
+  .features-grid,
+  .process-grid,
+  .services-grid,
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+  }
+  
+  .feature-card,
+  .process-card,
+  .service-card,
+  .stat-card {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  }
+  
+  .feature-card h3,
+  .process-card h3 {
+    color: #1e88e5;
+    margin-bottom: 12px;
+  }
+  
+  .process-card {
+    text-align: center;
+  }
+  
+  .process-card span {
+    width: 60px;
+    height: 60px;
+    background: #1e88e5;
+    color: white;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  .service-card {
+    text-align: center;
+    font-weight: 600;
+    color: #1e88e5;
+  }
+  
+  .stat-card {
+    text-align: center;
+  }
+  
+  .stat-card h3 {
+    color: #0f4c81;
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  
+  .faq-card {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  }
+  
+  .faq-card h4 {
+    color: #1e88e5;
+    margin-bottom: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .secure-hero {
+      padding: 70px 20px;
+    }
+  
+    .secure-hero-content h1 {
+      font-size: 2rem;
+    }
+  
+    .secure-features,
+    .secure-process,
+    .secure-services,
+    .secure-stats,
+    .secure-faq {
+      padding: 50px 20px;
+    }
+  }

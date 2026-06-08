@@ -1,0 +1,13 @@
+[
+  {
+    "refund_id": "RID1780589495228797",
+    "order_id": 16,
+    "user_id": 4,
+    "amount": 26999,
+    "payment_method": "Net Banking",
+    "original_transaction_id": "TXN17805894805521DBXOQ",
+    "refund_transaction_id": "REF1780589495227GVRF1X",
+    "refunded_at": "2026-06-04T16:11:35.228Z",
+    "status": "Completed"
+  }
+]

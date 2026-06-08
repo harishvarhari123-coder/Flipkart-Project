@@ -1,0 +1,618 @@
+import React, { useState, useRef, useEffect } from "react";
+
+/* ── Design tokens ───────────────────────────────── */
+const tokens = {
+  bg: "#0f1117",
+  surface: "#181c27",
+  surfaceHigh: "#1f2535",
+  border: "#2a3045",
+  accent: "#4ade80",
+  accentDim: "rgba(74,222,128,0.12)",
+  accentGlow: "rgba(74,222,128,0.25)",
+  text: "#e8edf5",
+  textMuted: "#7a8499",
+  textDim: "#4a5168",
+  amber: "#fbbf24",
+  teal: "#2dd4bf",
+  purple: "#a78bfa",
+  coral: "#fb7185",
+  green: "#4ade80",
+};
+
+/* ── Data ────────────────────────────────────────── */
+const categories = [
+  {
+    cat: "Orders", icon: "🛒", color: tokens.amber,
+    items: [
+      { q: "How do I place an order?", a: "Browse fresh produce, add to cart, and checkout. Pay via UPI, card, or cash on delivery. Orders before 10 AM get same-day delivery!" },
+      { q: "Can I modify my order after placing it?", a: "Yes — within 30 minutes. Go to My Orders, select the order, and tap Edit Order." },
+      { q: "What is the minimum order value?", a: "₹99 for standard delivery. Orders above ₹299 qualify for free delivery." },
+      { q: "Can I schedule a future delivery?", a: "Yes. During checkout tap 'Choose Delivery Slot' to pick a date up to 7 days ahead." },
+    ],
+  },
+  {
+    cat: "Delivery", icon: "🚚", color: tokens.teal,
+    items: [
+      { q: "How do I track my delivery?", a: "Once dispatched, you'll get an SMS with a live tracking link. Also trackable under My Orders → Track." },
+      { q: "What if I miss my delivery?", a: "Our agent will try once more in the same slot. If missed, reschedule from the app or call 1800-XXX-XXXX." },
+      { q: "Do you deliver to my area?", a: "Enter your pincode on the homepage. We serve 200+ pincodes across Tamil Nadu, Karnataka, and Andhra Pradesh." },
+      { q: "Are there any delivery charges?", a: "₹29 flat fee for orders below ₹299. Free delivery on orders ₹299 and above." },
+    ],
+  },
+  {
+    cat: "Payments", icon: "💳", color: tokens.purple,
+    items: [
+      { q: "What payment methods are accepted?", a: "UPI (GPay, PhonePe, Paytm), credit/debit cards, net banking, and Cash on Delivery." },
+      { q: "Is my payment information secure?", a: "Yes — all transactions use 256-bit SSL encryption. We never store card details on our servers." },
+      { q: "How do I apply a coupon code?", a: "On the checkout screen tap 'Have a coupon?' and enter your code. Valid discounts apply automatically." },
+    ],
+  },
+  {
+    cat: "Returns", icon: "↩️", color: tokens.coral,
+    items: [
+      { q: "What is the return policy?", a: "Report damaged or wrong items within 24 hours via the app. We'll arrange pickup and a refund or replacement at no cost." },
+      { q: "How long does a refund take?", a: "2–5 business days to your original payment method. UPI refunds usually arrive within 24 hours." },
+      { q: "Can I return fresh produce?", a: "Yes. Tap 'Report Issue' in your order and attach a photo. We'll review and refund within 24 hours." },
+    ],
+  },
+  {
+    cat: "Account", icon: "👤", color: tokens.green,
+    items: [
+      { q: "How do I reset my password?", a: "On login, tap 'Forgot Password', enter your mobile number, and follow the OTP steps." },
+      { q: "How do I update my address?", a: "Go to My Account → Addresses → tap '+' to add or tap any existing address to edit." },
+      { q: "Can I have multiple accounts?", a: "Each mobile number gets one Harikart account. You can add up to 5 delivery addresses per account." },
+    ],
+  },
+];
+
+const SYSTEM_PROMPT = `You are Hari, a friendly and helpful customer support assistant for Harikart — a fresh grocery and produce delivery app serving Tamil Nadu, Karnataka, and Andhra Pradesh in India.
+
+You help customers with questions about:
+- Placing and modifying orders (min order ₹99, free delivery above ₹299, ₹29 delivery fee below ₹299)
+- Delivery tracking, missed deliveries, pincode coverage (200+ pincodes)
+- Payment methods: UPI (GPay, PhonePe, Paytm), cards, net banking, Cash on Delivery
+- Returns and refunds (report within 24 hrs, refund in 2-5 business days)
+- Account management (addresses, password reset, max 5 addresses per account)
+- Promotions, coupons, and offers
+
+Be warm, concise, and helpful. Use Indian English naturally. Use ₹ for rupee amounts. Keep replies short (2-4 sentences). If you don't know something specific, offer to connect them with a human agent at 1800-XXX-XXXX (available Mon–Sat, 8 AM – 8 PM).`;
+
+/* ── Inline styles ─────────────────────────────── */
+const S = {
+  page: {
+    fontFamily: "'Georgia', 'Times New Roman', serif",
+    background: tokens.bg,
+    color: tokens.text,
+    minHeight: "100vh",
+  },
+  hero: {
+    background: `linear-gradient(160deg, #0f1117 0%, #141826 60%, #0d1420 100%)`,
+    padding: "72px 24px 56px",
+    textAlign: "center",
+    position: "relative",
+    borderBottom: `1px solid ${tokens.border}`,
+  },
+  heroGlow: {
+    position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
+    width: "600px", height: "300px",
+    background: "radial-gradient(ellipse at center top, rgba(74,222,128,0.07) 0%, transparent 70%)",
+    pointerEvents: "none",
+  },
+  eyebrow: {
+    fontSize: "11px", letterSpacing: "3px", textTransform: "uppercase",
+    color: tokens.accent, fontFamily: "monospace", marginBottom: "16px",
+  },
+  title: {
+    fontSize: "clamp(36px, 6vw, 64px)", fontWeight: 400, lineHeight: 1.15,
+    margin: "0 0 16px", letterSpacing: "-1px",
+    background: `linear-gradient(135deg, ${tokens.text} 0%, #a0aec0 100%)`,
+    WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+  },
+  subtitle: { color: tokens.textMuted, fontSize: "16px", margin: "0 0 36px" },
+  searchWrap: { maxWidth: "540px", margin: "0 auto", position: "relative" },
+  searchIcon: {
+    position: "absolute", left: "18px", top: "50%", transform: "translateY(-50%)",
+    fontSize: "16px", pointerEvents: "none",
+  },
+  search: {
+    width: "100%", boxSizing: "border-box",
+    padding: "16px 50px 16px 50px",
+    background: tokens.surface, border: `1px solid ${tokens.border}`,
+    borderRadius: "14px", color: tokens.text, fontSize: "15px",
+    outline: "none", transition: "border-color 0.2s, box-shadow 0.2s",
+    fontFamily: "inherit",
+  },
+  searchClear: {
+    position: "absolute", right: "16px", top: "50%", transform: "translateY(-50%)",
+    background: "none", border: "none", color: tokens.textMuted, cursor: "pointer",
+    fontSize: "18px", padding: "4px", lineHeight: 1,
+  },
+  main: { maxWidth: "780px", margin: "0 auto", padding: "40px 24px 80px" },
+  tabs: { display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "28px" },
+  tab: (active, color) => ({
+    padding: "10px 18px", borderRadius: "100px", border: "1px solid",
+    borderColor: active ? color : tokens.border,
+    background: active ? `${color}18` : "transparent",
+    color: active ? color : tokens.textMuted,
+    cursor: "pointer", fontSize: "13px", fontWeight: 600,
+    fontFamily: "monospace", letterSpacing: "0.5px",
+    transition: "all 0.18s", display: "flex", alignItems: "center", gap: "6px",
+  }),
+  card: {
+    background: tokens.surface, border: `1px solid ${tokens.border}`,
+    borderRadius: "18px", overflow: "hidden",
+  },
+  cardHeader: {
+    display: "flex", alignItems: "center", gap: "14px",
+    padding: "24px 24px 20px", borderBottom: `1px solid ${tokens.border}`,
+  },
+  cardIcon: { fontSize: "28px", lineHeight: 1 },
+  cardTitle: { fontSize: "20px", fontWeight: 400, margin: 0, letterSpacing: "-0.3px" },
+  cardCount: { fontSize: "12px", color: tokens.textMuted, margin: "2px 0 0", fontFamily: "monospace" },
+  item: (isLast) => ({ borderBottom: isLast ? "none" : `1px solid ${tokens.border}` }),
+  qBtn: (isOpen) => ({
+    width: "100%", background: "none", border: "none",
+    padding: "20px 24px", display: "flex", justifyContent: "space-between",
+    alignItems: "center", gap: "16px", cursor: "pointer",
+    color: isOpen ? tokens.accent : tokens.text,
+    textAlign: "left", fontSize: "15px", lineHeight: 1.5,
+    transition: "color 0.18s, background 0.18s", fontFamily: "inherit",
+  }),
+  plus: (isOpen) => ({
+    fontSize: "22px", lineHeight: 1, color: isOpen ? tokens.accent : tokens.textDim,
+    transform: isOpen ? "rotate(45deg)" : "rotate(0deg)",
+    transition: "transform 0.2s, color 0.18s", flexShrink: 0, fontWeight: 300,
+  }),
+  answer: {
+    padding: "0 24px 20px", color: tokens.textMuted, fontSize: "14px",
+    lineHeight: 1.75, margin: 0,
+  },
+  resultCat: {
+    fontSize: "11px", letterSpacing: "1.5px", textTransform: "uppercase",
+    color: tokens.textDim, fontFamily: "monospace", margin: "0 0 4px",
+    padding: "20px 24px 0",
+  },
+  resultCount: { fontSize: "13px", color: tokens.textMuted, marginBottom: "16px", fontFamily: "monospace" },
+  empty: {
+    textAlign: "center", padding: "60px 24px",
+    background: tokens.surface, borderRadius: "18px", border: `1px solid ${tokens.border}`,
+  },
+  emptyIcon: { fontSize: "40px", display: "block", marginBottom: "12px" },
+  emptyMsg: { fontSize: "18px", margin: "0 0 8px" },
+  emptySub: { color: tokens.textMuted, margin: "0 0 24px" },
+  cta: {
+    marginTop: "40px", textAlign: "center", padding: "40px 24px",
+    background: tokens.surface, border: `1px solid ${tokens.border}`, borderRadius: "18px",
+  },
+  ctaIcon: { fontSize: "32px", display: "block", marginBottom: "12px" },
+  ctaTitle: { fontSize: "24px", fontWeight: 400, margin: "0 0 8px" },
+  ctaSub: { color: tokens.textMuted, margin: "0 0 24px", fontSize: "14px" },
+  ctaBtns: { display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" },
+  btnDark: {
+    padding: "13px 28px", borderRadius: "100px",
+    background: tokens.accent, color: "#0f1117",
+    border: "none", cursor: "pointer", fontSize: "14px", fontWeight: 700,
+    fontFamily: "monospace", letterSpacing: "0.5px", transition: "opacity 0.18s",
+  },
+  btnOutline: {
+    padding: "13px 28px", borderRadius: "100px",
+    background: "transparent", color: tokens.text,
+    border: `1px solid ${tokens.border}`, cursor: "pointer",
+    fontSize: "14px", fontFamily: "monospace", letterSpacing: "0.5px",
+    transition: "border-color 0.18s",
+  },
+  overlay: {
+    position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)",
+    backdropFilter: "blur(4px)", zIndex: 1000,
+    display: "flex", alignItems: "flex-end", justifyContent: "flex-end",
+    padding: "24px",
+  },
+  chatBox: {
+    width: "min(420px, calc(100vw - 48px))",
+    height: "min(620px, calc(100vh - 100px))",
+    background: tokens.surface, border: `1px solid ${tokens.border}`,
+    borderRadius: "20px", display: "flex", flexDirection: "column",
+    overflow: "hidden", boxShadow: "0 24px 80px rgba(0,0,0,0.6)",
+  },
+  chatHeader: {
+    padding: "18px 20px", borderBottom: `1px solid ${tokens.border}`,
+    display: "flex", alignItems: "center", gap: "12px",
+    background: tokens.surfaceHigh,
+  },
+  avatarWrap: {
+    width: "38px", height: "38px", borderRadius: "50%",
+    background: tokens.accentDim, border: `1px solid ${tokens.accentGlow}`,
+    display: "flex", alignItems: "center", justifyContent: "center",
+    fontSize: "18px", flexShrink: 0,
+  },
+  chatName: { fontWeight: 600, fontSize: "14px", margin: "0 0 2px" },
+  chatStatus: {
+    fontSize: "11px", color: tokens.accent, fontFamily: "monospace",
+    display: "flex", alignItems: "center", gap: "5px",
+  },
+  statusDot: {
+    width: "6px", height: "6px", borderRadius: "50%",
+    background: tokens.accent, display: "inline-block",
+    animation: "pulse 2s infinite",
+  },
+  closeBtn: {
+    marginLeft: "auto", background: "none", border: "none",
+    color: tokens.textMuted, cursor: "pointer", fontSize: "20px",
+    padding: "4px", lineHeight: 1, borderRadius: "6px",
+  },
+  messages: {
+    flex: 1, overflowY: "auto", padding: "20px",
+    display: "flex", flexDirection: "column", gap: "14px",
+  },
+  msgRow: (isUser) => ({
+    display: "flex", justifyContent: isUser ? "flex-end" : "flex-start",
+  }),
+  bubble: (isUser) => ({
+    maxWidth: "78%", padding: "11px 15px",
+    borderRadius: isUser ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
+    background: isUser ? tokens.accent : tokens.surfaceHigh,
+    color: isUser ? "#0f1117" : tokens.text,
+    fontSize: "14px", lineHeight: 1.6,
+    border: isUser ? "none" : `1px solid ${tokens.border}`,
+    whiteSpace: "pre-wrap", wordBreak: "break-word",
+  }),
+  typingBubble: {
+    maxWidth: "78%", padding: "12px 16px", borderRadius: "16px 16px 16px 4px",
+    background: tokens.surfaceHigh, border: `1px solid ${tokens.border}`,
+    display: "flex", gap: "5px", alignItems: "center",
+  },
+  typingDot: (delay) => ({
+    width: "7px", height: "7px", borderRadius: "50%",
+    background: tokens.textMuted,
+    animation: `bounce 1.2s ease-in-out ${delay}s infinite`,
+  }),
+  inputRow: {
+    padding: "14px 16px", borderTop: `1px solid ${tokens.border}`,
+    display: "flex", gap: "10px", background: tokens.surfaceHigh,
+  },
+  chatInput: {
+    flex: 1, padding: "11px 16px", background: tokens.surface,
+    border: `1px solid ${tokens.border}`, borderRadius: "100px",
+    color: tokens.text, fontSize: "14px", outline: "none",
+    fontFamily: "inherit", transition: "border-color 0.2s",
+  },
+  sendBtn: (disabled) => ({
+    width: "42px", height: "42px", borderRadius: "50%",
+    background: disabled ? tokens.border : tokens.accent,
+    border: "none", cursor: disabled ? "not-allowed" : "pointer",
+    display: "flex", alignItems: "center", justifyContent: "center",
+    fontSize: "16px", transition: "background 0.18s", flexShrink: 0,
+    color: disabled ? tokens.textDim : "#0f1117", fontWeight: 700,
+  }),
+  quickChips: {
+    padding: "0 16px 10px", display: "flex", gap: "8px", flexWrap: "wrap",
+  },
+  chip: {
+    padding: "6px 12px", borderRadius: "100px", background: tokens.accentDim,
+    border: `1px solid ${tokens.accentGlow}`, color: tokens.accent,
+    fontSize: "12px", cursor: "pointer", fontFamily: "monospace",
+    transition: "background 0.15s",
+  },
+  errBanner: {
+    margin: "0 16px 10px", padding: "10px 14px", borderRadius: "10px",
+    background: "rgba(251,113,133,0.1)", border: "1px solid rgba(251,113,133,0.25)",
+    color: "#fda4af", fontSize: "12px", lineHeight: 1.5, fontFamily: "monospace",
+  },
+};
+
+/* ── ChatBot ─────────────────────────────────────── */
+function ChatBot({ onClose }) {
+  const [messages, setMessages] = useState([
+    { role: "assistant", content: "Hi! 👋 I'm Hari, your Harikart assistant. How can I help you today?" },
+  ]);
+  const [input, setInput]   = useState("");
+  const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState(null);
+  const bottomRef = useRef(null);
+  const inputRef  = useRef(null);
+
+  const quickReplies = ["Track my order", "Return an item", "Delivery charges", "Payment methods"];
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
+  const send = async (text) => {
+    const userText = (text || input).trim();
+    if (!userText || loading) return;
+    setInput("");
+    setApiError(null);
+
+    const newMessages = [...messages, { role: "user", content: userText }];
+    setMessages(newMessages);
+    setLoading(true);
+
+    try {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "anthropic-dangerous-direct-browser-access": "true",
+        },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1000,
+          system: SYSTEM_PROMPT,
+          messages: newMessages.map((m) => ({ role: m.role, content: m.content })),
+        }),
+      });
+
+      if (!res.ok) {
+        const errJson = await res.json().catch(() => ({}));
+        throw new Error(errJson?.error?.message || `HTTP ${res.status}`);
+      }
+
+      const data  = await res.json();
+      const reply = data.content?.find((b) => b.type === "text")?.text
+        || "Sorry, I couldn't understand that. Please try again.";
+
+      setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
+    } catch (err) {
+      console.error("ChatBot error:", err);
+      setApiError(`Could not reach AI: ${err.message}. You can also call us at 1800-XXX-XXXX.`);
+      // Remove the user message if API failed so they can retry
+      setMessages((prev) => prev.slice(0, -1));
+      setInput(userText);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleKey = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); }
+  };
+
+  return (
+    <>
+      <style>{`
+        @keyframes pulse  { 0%,100%{opacity:1} 50%{opacity:0.4} }
+        @keyframes bounce { 0%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-6px)} }
+        @keyframes fadeSlideUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+        .chat-bubble-enter { animation: fadeSlideUp 0.22s ease forwards; }
+        .chat-input:focus  { border-color: ${tokens.accent} !important; }
+        .chat-input::placeholder { color: ${tokens.textDim}; }
+        .chip:hover { background: rgba(74,222,128,0.2) !important; }
+        .close-btn:hover { background: ${tokens.border}; color: ${tokens.text}; }
+      `}</style>
+
+      <div style={S.overlay} onClick={(e) => e.target === e.currentTarget && onClose()}>
+        <div style={S.chatBox}>
+
+          {/* Header */}
+          <div style={S.chatHeader}>
+            <div style={S.avatarWrap}>🌿</div>
+            <div>
+              <p style={S.chatName}>Hari — Support</p>
+              <span style={S.chatStatus}>
+                <span style={S.statusDot} /> Online
+              </span>
+            </div>
+            <button style={S.closeBtn} className="close-btn" onClick={onClose} aria-label="Close chat">✕</button>
+          </div>
+
+          {/* Messages */}
+          <div style={S.messages}>
+            {messages.map((m, i) => (
+              <div key={i} style={S.msgRow(m.role === "user")} className="chat-bubble-enter">
+                <div style={S.bubble(m.role === "user")}>{m.content}</div>
+              </div>
+            ))}
+            {loading && (
+              <div style={S.msgRow(false)}>
+                <div style={S.typingBubble}>
+                  <span style={S.typingDot(0)} />
+                  <span style={S.typingDot(0.2)} />
+                  <span style={S.typingDot(0.4)} />
+                </div>
+              </div>
+            )}
+            <div ref={bottomRef} />
+          </div>
+
+          {/* Quick chips — only on first message */}
+          {messages.length === 1 && (
+            <div style={S.quickChips}>
+              {quickReplies.map((q) => (
+                <button key={q} style={S.chip} className="chip" onClick={() => send(q)}>{q}</button>
+              ))}
+            </div>
+          )}
+
+          {/* Error banner */}
+          {apiError && <div style={S.errBanner}>⚠ {apiError}</div>}
+
+          {/* Input */}
+          <div style={S.inputRow}>
+            <input
+              ref={inputRef}
+              style={S.chatInput}
+              className="chat-input"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKey}
+              placeholder="Type your message…"
+              disabled={loading}
+            />
+            <button
+              style={S.sendBtn(!input.trim() || loading)}
+              onClick={() => send()}
+              disabled={!input.trim() || loading}
+              aria-label="Send"
+            >
+              ➤
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* ── Main FAQ ────────────────────────────────────── */
+export default function FAQ() {
+  const [open, setOpen]         = useState({});
+  const [activeTab, setActiveTab] = useState(0);
+  const [search, setSearch]     = useState("");
+  const [chatOpen, setChatOpen] = useState(false);
+  const heroRef = useRef(null);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    heroRef.current?.focus();
+  }, []);
+
+  const toggle = (key) => setOpen((p) => ({ ...p, [key]: !p[key] }));
+
+  const filtered = search.trim()
+    ? categories
+        .flatMap((c, ci) => c.items.map((item, qi) => ({ ...item, cat: c.cat, icon: c.icon, ci, qi })))
+        .filter((i) =>
+          i.q.toLowerCase().includes(search.toLowerCase()) ||
+          i.a.toLowerCase().includes(search.toLowerCase())
+        )
+    : null;
+
+  const activeCat = categories[activeTab];
+
+  return (
+    <div style={S.page}>
+      <style>{`
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: ${tokens.bg}; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: ${tokens.border}; border-radius: 3px; }
+        .faq-search:focus { border-color: ${tokens.accent} !important; box-shadow: 0 0 0 3px ${tokens.accentDim} !important; }
+        .faq-search::placeholder { color: ${tokens.textDim}; }
+        .faq-tab:hover { border-color: currentColor !important; opacity: 0.85; }
+        .faq-q:hover { background: ${tokens.surfaceHigh} !important; }
+        .faq-btn-dark:hover { opacity: 0.85; }
+        .faq-btn-outline:hover { border-color: ${tokens.textMuted} !important; }
+      `}</style>
+
+      {/* Hero */}
+      <header
+  style={{ ...S.hero, outline: "none" }}
+  tabIndex={-1}
+  ref={heroRef}
+>        <div style={S.heroGlow} />
+        <p style={S.eyebrow}>Help Center</p>
+        <h1 style={S.title}>How can we<br />help you?</h1>
+        <p style={S.subtitle}>Quick answers on orders, delivery, payments, and more.</p>
+
+        <div style={S.searchWrap}>
+          <span style={S.searchIcon}>🔍</span>
+          <input
+            className="faq-search"
+            style={S.search}
+            type="text"
+            placeholder="Search your question…"
+            value={search}
+            onChange={(e) => { setSearch(e.target.value); setOpen({}); }}
+            aria-label="Search FAQs"
+          />
+          {search && (
+            <button style={S.searchClear} onClick={() => setSearch("")} aria-label="Clear">✕</button>
+          )}
+        </div>
+      </header>
+
+      <main style={S.main}>
+        {filtered ? (
+          <section>
+            <p style={S.resultCount}>
+              {filtered.length} result{filtered.length !== 1 ? "s" : ""} for <strong>"{search}"</strong>
+            </p>
+            {filtered.length === 0 ? (
+              <div style={S.empty}>
+                <span style={S.emptyIcon}>🤔</span>
+                <p style={S.emptyMsg}>No results found</p>
+                <p style={S.emptySub}>Try different keywords or browse categories below.</p>
+                <button style={S.btnOutline} className="faq-btn-outline" onClick={() => setSearch("")}>Browse all FAQs</button>
+              </div>
+            ) : (
+              <div style={S.card}>
+                {filtered.map((item, i) => {
+                  const key = `s-${i}`;
+                  const isOpen = !!open[key];
+                  return (
+                    <div key={i} style={S.item(i === filtered.length - 1)}>
+                      <p style={S.resultCat}>{item.icon} {item.cat}</p>
+                      <button className="faq-q" style={S.qBtn(isOpen)} onClick={() => toggle(key)} aria-expanded={isOpen}>
+                        <span>{item.q}</span>
+                        <span style={S.plus(isOpen)}>+</span>
+                      </button>
+                      {isOpen && <p style={S.answer}>{item.a}</p>}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </section>
+        ) : (
+          <>
+            <div style={S.tabs} role="tablist">
+              {categories.map((c, i) => (
+                <button
+                  key={i} role="tab" aria-selected={activeTab === i}
+                  className="faq-tab"
+                  style={S.tab(activeTab === i, c.color)}
+                  onClick={() => { setActiveTab(i); setOpen({}); }}
+                >
+                  <span>{c.icon}</span>{c.cat}
+                </button>
+              ))}
+            </div>
+
+            <section style={S.card} role="tabpanel">
+              <div style={S.cardHeader}>
+                <span style={S.cardIcon}>{activeCat.icon}</span>
+                <div>
+                  <h2 style={S.cardTitle}>{activeCat.cat}</h2>
+                  <p style={S.cardCount}>{activeCat.items.length} questions</p>
+                </div>
+              </div>
+              {activeCat.items.map((item, qi) => {
+                const key = `${activeTab}-${qi}`;
+                const isOpen = !!open[key];
+                return (
+                  <div key={qi} style={S.item(qi === activeCat.items.length - 1)}>
+                    <button className="faq-q" style={S.qBtn(isOpen)} onClick={() => toggle(key)} aria-expanded={isOpen}>
+                      <span>{item.q}</span>
+                      <span style={S.plus(isOpen)}>+</span>
+                    </button>
+                    {isOpen && <p style={S.answer}>{item.a}</p>}
+                  </div>
+                );
+              })}
+            </section>
+          </>
+        )}
+
+        {/* CTA */}
+        <div style={S.cta}>
+          <span style={S.ctaIcon}>💬</span>
+          <h2 style={S.ctaTitle}>Still need help?</h2>
+          <p style={S.ctaSub}>Our support team is available Mon–Sat, 8 AM to 8 PM.</p>
+          <div style={S.ctaBtns}>
+            <button style={S.btnDark} className="faq-btn-dark" onClick={() => setChatOpen(true)}>
+              Chat with us
+            </button>
+            <button style={S.btnOutline} className="faq-btn-outline">Call 1800-XXX-XXXX</button>
+          </div>
+        </div>
+      </main>
+
+      {chatOpen && <ChatBot onClose={() => setChatOpen(false)} />}
+    </div>
+  );
+}

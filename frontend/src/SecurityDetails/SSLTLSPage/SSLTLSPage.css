@@ -1,0 +1,102 @@
+.ssl-page {
+    max-width: 1400px;
+    margin: auto;
+    padding: 40px;
+  }
+  
+  .ssl-hero {
+    background: linear-gradient(135deg, #0f172a, #1e3a8a);
+    color: white;
+    padding: 80px 40px;
+    border-radius: 20px;
+    text-align: center;
+  }
+  
+  .ssl-hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+  
+  .ssl-hero p {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  .ssl-overview,
+  .ssl-features,
+  .ssl-process,
+  .ssl-benefits {
+    margin-top: 60px;
+  }
+  
+  .ssl-overview h2,
+  .ssl-features h2,
+  .ssl-process h2,
+  .ssl-benefits h2 {
+    margin-bottom: 20px;
+  }
+  
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 25px;
+  }
+  
+  .feature-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+  }
+  
+  .steps {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .step {
+    flex: 1;
+    min-width: 220px;
+    background: #f8fafc;
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+  }
+  
+  .step span {
+    width: 50px;
+    height: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #2563eb;
+    color: white;
+    border-radius: 50%;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .ssl-benefits ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .ssl-benefits li {
+    padding: 12px 0;
+    font-size: 1.1rem;
+  }
+  
+  .ssl-footer-card {
+    margin-top: 60px;
+    background: #eef6ff;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+  }
+  .ssl-main-heading:focus {
+    outline: 3px solid #2563eb;
+    outline-offset: 8px;
+    border-radius: 8px;
+  }

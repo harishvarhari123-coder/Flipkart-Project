@@ -1,0 +1,213 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  .gs-page {
+    min-height: 100vh;
+    background: #0b1220;
+    color: white;
+  }
+  
+  /* HEADER */
+  .gs-header {
+    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #1e3a8a, #0f172a);
+  }
+  
+  .gs-header h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+  }
+  
+  .gs-header p {
+    color: #cbd5e1;
+    max-width: 700px;
+    margin: auto;
+  }
+  
+  /* STEPS */
+  .gs-steps {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 30px 0;
+  }
+  
+  .gs-steps div {
+    width: 35px;
+    height: 35px;
+    background: #1f2937;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .gs-steps .active {
+    background: #3b82f6;
+  }
+  
+  /* CONTENT */
+  .gs-content {
+    padding: 20px;
+  }
+  
+  .gs-box {
+    background: #111827;
+    padding: 25px;
+    border-radius: 10px;
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  .gs-box h2 {
+    margin-bottom: 10px;
+  }
+  
+  .gs-box p {
+    color: #cbd5e1;
+    margin-bottom: 10px;
+  }
+  
+  .gs-box ul {
+    padding-left: 20px;
+  }
+  
+  /* NAV */
+  .gs-nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px;
+  }
+  
+  .gs-nav button {
+    padding: 10px 20px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  /* INFO */
+  .gs-info {
+    padding: 40px;
+    background: #0f172a;
+  }
+  
+  .gs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .gs-card {
+    background: #1f2937;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  /* CHECKLIST */
+  .gs-checklist {
+    padding: 40px;
+    background: #111827;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .gs-checklist label {
+    background: #1f2937;
+    padding: 10px;
+    border-radius: 6px;
+  }
+  
+  /* FOOTER */
+  .gs-footer {
+    text-align: center;
+    padding: 20px;
+    color: #64748b;
+    background: #0b1220;
+  }
+  
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .gs-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .gs-header h1 {
+      font-size: 26px;
+    }
+  }
+  .gs-final-btn {
+    margin-top: 20px;
+    padding: 14px 26px;
+    border: none;
+    border-radius: 12px;
+  
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+  
+    background: linear-gradient(135deg, #10b981, #22c55e);
+  
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
+  
+    transition: all 0.3s ease;
+  }
+  
+  /* Hover effect */
+  .gs-final-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(16, 185, 129, 0.5);
+  }
+  
+  /* Click effect */
+  .gs-final-btn:active {
+    transform: scale(0.96);
+  }
+  
+  /* Shine animation effect */
+  .gs-final-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: skewX(-25deg);
+    transition: 0.5s;
+  }
+  
+  .gs-final-btn:hover::before {
+    left: 120%;
+  }
+  
+  /* Glow pulse effect */
+  @keyframes glow {
+    0% {
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.6);
+    }
+    100% {
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+    }
+  }
+  
+  .gs-final-btn {
+    animation: glow 2.5s infinite;
+  }

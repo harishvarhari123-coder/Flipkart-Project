@@ -1,0 +1,27 @@
+          {/*{/* ── Follow Me Section ── */}
+<div className="footer-follow-section">
+<div className="footer-follow-stats">
+  <span className="footer-follow-count">{formatCount(followerCount)}</span>
+  <span className="footer-follow-label">
+    {followerCount === 1 ? 'Follower' : 'Followers'}
+  </span>
+</div>
+<button
+  id="footer-follow-btn"
+  className={`footer-follow-btn ${following ? 'following' : ''} ${animating ? 'pop' : ''}`}
+  onClick={handleFollow}
+  disabled={loading}
+  aria-label={following ? 'Unfollow Harikart' : 'Follow Harikart'}
+>
+  {following ? (
+    <>
+      <FiUserCheck className="follow-icon" />
+      <span>Following</span>
+    </>
+  ) : (
+    <>
+      <FiUserPlus className="follow-icon" />
+      <span>Follow Me</span>
+    </>
+  )} *
+</button>

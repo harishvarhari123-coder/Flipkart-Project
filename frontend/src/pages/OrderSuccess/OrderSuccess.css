@@ -1,0 +1,76 @@
+.order-success-page {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 16px;
+  text-align: center;
+}
+
+.order-success-card {
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 40px;
+  box-shadow: var(--shadow-md);
+}
+
+.success-icon-container {
+  width: 80px;
+  height: 80px;
+  background: var(--success-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+}
+
+.success-icon {
+  color: var(--success);
+  font-size: 40px;
+}
+
+.order-success-card h1 {
+  font-size: 24px;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.order-success-card p {
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+  font-size: 15px;
+}
+
+.order-id-box {
+  background: #f5faff;
+  border: 1px dashed var(--primary);
+  padding: 16px;
+  border-radius: var(--radius-sm);
+  display: inline-block;
+  margin-bottom: 32px;
+}
+
+.order-id-box span {
+  color: var(--text-secondary);
+  font-size: 13px;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.order-id-box strong {
+  font-size: 18px;
+  color: var(--primary);
+  letter-spacing: 1px;
+}
+
+.success-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .success-actions {
+    flex-direction: column;
+  }
+}
