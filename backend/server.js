@@ -171,6 +171,24 @@ app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+app.get('/init-db', async (req, res) => {
+  try {
+    const sqlFilePath = path.join(__dirname, '..', 'database_queries.sql');
+    const sqlQueries = await fs.readFile(sqlFilePath, 'utf8');
+    
+    // Split by semicolons and remove the CREATE DATABASE statements if they exist
+    // as Aiven might not allow arbitrary database creation, we just use the default one.
+    let sanitizedSql = sqlQueries.replace(/CREATE DATABASE IF NOT EXISTS \w+;/g, '');
+    sanitizedSql = sanitizedSql.replace(/USE \w+;/g, '');
+
+    await db.query(sanitizedSql);
+    res.send("<h1>Database successfully initialized! All tables created.</h1><p>You can now close this tab.</p>");
+  } catch (err) {
+    console.error("Init DB Error:", err);
+    res.status(500).send("<h1>Error initializing database</h1><p>" + err.message + "</p>");
+  }
+});
+
 // ── Auth middleware ──────────────────────────────────────────────────────────
 const authenticate = async (req, res, next) => {
   try {
