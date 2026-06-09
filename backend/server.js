@@ -164,10 +164,30 @@ const initDb = async () => {
 initDb();
 
 const app = express();
-const PORT = 5000;
-const JWT_SECRET = 'flipkart_jwt_secret_key_2024';
+const PORT = process.env.PORT || 5000;
+const JWT_SECRET = process.env.JWT_SECRET || 'flipkart_jwt_secret_key_2024';
 
-app.use(cors());
+// ── CORS ─────────────────────────────────────────────────────────────────────
+const allowedOrigins = [
+  'https://flipkart-project-bclg.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:3000',
+];
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, curl, Postman)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+app.options('*', cors());
+
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
@@ -216,25 +236,10 @@ app.post('/api/auth/send-otp', async (req, res) => {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     otpStore.set(email, { otp, expires: Date.now() + 10 * 60 * 1000 });
 
-    const testAccount = await nodemailer.createTestAccount();
-    const transporter = nodemailer.createTransport({
-      host: "smtp.ethereal.email",
-      port: 587,
-      secure: false,
-      auth: { user: testAccount.user, pass: testAccount.pass },
-    });
-
-    const info = await transporter.sendMail({
-      from: '"Flipkart" <noreply@flipkart-clone.com>',
-      to: email,
-      subject: "Your Registration OTP",
-      text: `Your OTP is ${otp}. It is valid for 10 minutes.`,
-    });
-
+    // Removed nodemailer test account creation because it crashes on Render
     console.log("\n=========================================");
     console.log(`🔑 YOUR REGISTRATION OTP IS: ${otp}`);
     console.log("=========================================\n");
-    console.log("OTP sent. Preview URL: %s", nodemailer.getTestMessageUrl(info));
     res.json({ message: 'OTP sent successfully', otp });
   } catch (err) {
     console.error('Send OTP error:', err);
