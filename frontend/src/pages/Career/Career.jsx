@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import './career.css';
+import './Career.css';
 
 const Career = () => {
   const [formData, setFormData] = useState({
