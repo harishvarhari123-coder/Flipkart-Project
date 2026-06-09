@@ -206,7 +206,7 @@ export default function About() {
                 Thavasi Lingam technical expertise and problem-solving skills ensure robust, efficient solutions for complex challenges.
               </p>
               <div className="member-social">
-                <a href="https://www.linkedin.com/in/hariharan-a-a824bb258" className="social-link">in</a>
+                <a href="https://x.com/mr__thavasi?s=11" className="social-link">X</a>
                 <a href="https://www.naukri.com/mnj/dashboard?utm" className="social-link">nk</a>
               </div>
             </div>
