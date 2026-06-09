@@ -10,6 +10,24 @@ const path = require('path');
 const REFUND_FILE = path.join(__dirname, 'refund_history.json');
 
 const initDb = async () => {
+  // Add avatar column to users if missing
+  await db.query(`
+    ALTER TABLE users
+    ADD COLUMN IF NOT EXISTS avatar LONGTEXT DEFAULT NULL
+  `).catch(err => {
+    // MySQL < 8.0 doesn't support IF NOT EXISTS for ALTER TABLE columns
+    // Try alternative approach
+    return db.query(`
+      SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS
+      WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'users' AND COLUMN_NAME = 'avatar'
+    `).then(([cols]) => {
+      if (cols.length === 0) {
+        return db.query('ALTER TABLE users ADD COLUMN avatar LONGTEXT DEFAULT NULL');
+      }
+    }).catch(() => {});
+  });
+  console.log('✅ users.avatar column ensured');
+
   try {
     await db.query(`
       CREATE TABLE IF NOT EXISTS wishlist (
@@ -1150,8 +1168,8 @@ app.get('/api/follow/count', async (req, res) => {
 
 app.get('/api/follow/status', authenticate, async (req, res) => {
   try {
-    const [rows] = await db.query('SELECT id FROM follows WHERE user_id = ?', [req.userId]);
-    res.json({ following: rows.length > 0 });
+    const [rows] = await db.query('SELECT id, created_at FROM follows WHERE user_id = ?', [req.userId]);
+    res.json({ following: rows.length > 0, followedAt: rows[0]?.created_at || null });
   } catch (err) {
     console.error('Follow status error:', err);
     res.status(500).json({ message: 'Server error' });
@@ -1178,12 +1196,19 @@ app.post('/api/follow/toggle', authenticate, async (req, res) => {
 
 app.get('/api/follow/followers', authenticate, async (req, res) => {
   try {
+    // Check if avatar column exists before selecting it
+    const [cols] = await db.query(
+      `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS
+       WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'users' AND COLUMN_NAME = 'avatar'`
+    );
+    const hasAvatar = cols.length > 0;
+
     const [rows] = await db.query(
       `SELECT
          u.id         AS _id,
          u.name,
          u.email,
-         u.avatar,
+         ${hasAvatar ? 'u.avatar,' : "NULL AS avatar,"}
          f.created_at AS followedAt
        FROM follows f
        JOIN users u ON u.id = f.user_id
