@@ -133,12 +133,12 @@ const initDb = async () => {
     console.log('✅ Reviews table initialized');
 
     // Update Fashion to Men's Fashion
-    await db.query(`UPDATE categories SET name = "Men's Fashion", icon = "👕" WHERE name = 'Fashion' OR name = "Men's Fashion"`);
+    await db.query(`UPDATE categories SET name = 'Men\\'s Fashion', icon = '👕' WHERE name = 'Fashion' OR name = 'Men\\'s Fashion'`);
     
     // Insert Women's Fashion if not exists
-    const [womenCat] = await db.query(`SELECT id FROM categories WHERE name = "Women's Fashion"`);
+    const [womenCat] = await db.query(`SELECT id FROM categories WHERE name = 'Women\\'s Fashion'`);
     if (womenCat.length === 0) {
-      const [insertRes] = await db.query(`INSERT INTO categories (name, icon) VALUES ("Women's Fashion", "👗")`);
+      const [insertRes] = await db.query(`INSERT INTO categories (name, icon) VALUES ('Women\\'s Fashion', '👗')`);
       const newCatId = insertRes.insertId;
       
       // Seed some Women's products

@@ -74,7 +74,6 @@ import Partnership from './pages/Partnership/Partnership';
 
 import './App.css';
 
-import Chatbot from './pages/Chatbot/Chatbot';
 
 
 function App() {
@@ -146,7 +145,6 @@ function App() {
           <Route path="/getstarted" element={<GetStarted/>} />
           <Route path="/FarmToDoorstep" element={<FarmToDoorstep/>} />
           <Route path="/Coupons" element={<Coupons/>} />
-          <Route path="/chatbot" element={<Chatbot/>} />
           <Route path="/Partnership" element={<Partnership/>} />
 
 
