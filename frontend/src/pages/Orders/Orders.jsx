@@ -4,7 +4,7 @@ import axios from 'axios';
 import { FiTrash2 } from 'react-icons/fi';
 import './Orders.css';
 
-const API = 'http://localhost:5000/api';
+const API = 'https://flipkart-project-l2ex.onrender.com/api';
 
 export default function Orders() {
   const [orders, setOrders] = useState([]);

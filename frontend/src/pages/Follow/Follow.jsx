@@ -10,7 +10,7 @@ import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 import Logo from '../../assets/logo.jpeg';
 
-const API = 'http://localhost:5000/api';
+const API = 'https://flipkart-project-l2ex.onrender.com/api';
 
 /* ══════════════════════════════════════════════════════════════
    IMAGE COMPRESS HELPER

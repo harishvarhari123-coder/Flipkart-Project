@@ -4,7 +4,7 @@ import axios from 'axios';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import './Products.css';
 
-const API = 'http://localhost:5000/api';
+const API = 'https://flipkart-project-l2ex.onrender.com/api';
 
 export default function Products() {
   const [products, setProducts] = useState([]);

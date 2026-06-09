@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import './CategoryBar.css';
 
-const API = 'http://localhost:5000/api';
+const API = 'https://flipkart-project-l2ex.onrender.com/api';
 
 export default function CategoryBar() {
   const [categories, setCategories] = useState([]);

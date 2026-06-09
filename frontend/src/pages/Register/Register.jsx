@@ -131,7 +131,7 @@ export default function Register() {
     if (password.length < 6) { setError('Password must be at least 6 characters'); return; }
     try {
       setLoading(true);
-      const res = await axios.post('http://localhost:5000/api/auth/send-otp', { email });
+      const res = await axios.post('https://flipkart-project-l2ex.onrender.com/api/auth/send-otp', { email });
 
       // Backend returns the OTP in response (add this to backend — see note below)
       // If your backend returns { otp } use it; otherwise show a generic popup

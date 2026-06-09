@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const API = 'http://localhost:5000/api';
+export const API = 'https://flipkart-project-l2ex.onrender.com/api';
 
 /* ══════════════════════════════════════════════════════════════
    IMAGE COMPRESS HELPER

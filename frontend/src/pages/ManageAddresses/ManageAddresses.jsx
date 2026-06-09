@@ -9,7 +9,7 @@ import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
 import './ManageAddresses.css';
 
-const API = 'http://localhost:5000/api';
+const API = 'https://flipkart-project-l2ex.onrender.com/api';
 
 const EMPTY_FORM = {
   name: '', phone: '', pincode: '', locality: '',

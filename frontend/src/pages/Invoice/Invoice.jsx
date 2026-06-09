@@ -5,7 +5,7 @@ import { FiPrinter } from 'react-icons/fi';
 import './Invoice.css';
 import Logo from '../../assets/logo.jpeg';
 
-const API = 'http://localhost:5000/api';
+const API = 'https://flipkart-project-l2ex.onrender.com/api';
 
 export default function Invoice() {
   const { orderId } = useParams();

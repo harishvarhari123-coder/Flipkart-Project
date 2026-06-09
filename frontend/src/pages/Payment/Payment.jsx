@@ -5,7 +5,7 @@ import { useCart } from '../../context/CartContext';
 import './Payment.css';
 import '../Checkout/Checkout.css';
 
-const API = 'http://localhost:5000/api';
+const API = 'https://flipkart-project-l2ex.onrender.com/api';
 
 // ── Same coupons list as Checkout.jsx ────────────────────────────────────────
 const ALL_COUPONS = [

@@ -5,7 +5,7 @@ import Banner from '../../components/Banner/Banner';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import './Home.css';
 
-const API = 'http://localhost:5000/api';
+const API = 'https://flipkart-project-l2ex.onrender.com/api';
 
 export default function Home() {
   const [products, setProducts] = useState([]);

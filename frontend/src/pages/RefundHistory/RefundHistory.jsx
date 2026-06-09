@@ -4,7 +4,7 @@ import axios from 'axios';
 import { FiArrowLeft, FiClock, FiDollarSign, FiCheckCircle, FiCopy, FiTrendingUp } from 'react-icons/fi';
 import './RefundHistory.css';
 
-const API = 'http://localhost:5000/api';
+const API = 'https://flipkart-project-l2ex.onrender.com/api';
 
 export default function RefundHistory() {
   const [refunds, setRefunds] = useState([]);

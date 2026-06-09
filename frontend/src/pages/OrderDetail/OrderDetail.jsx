@@ -5,7 +5,7 @@ import { FiDownload, FiClock } from 'react-icons/fi';
 import OrderTimeline from '../../components/OrderTimeline/OrderTimeline';
 import './OrderDetail.css';
 
-const API = 'http://localhost:5000/api';
+const API = 'https://flipkart-project-l2ex.onrender.com/api';
 const CANCEL_WINDOW_MS = 60 * 60 * 1000; // 1 hour in milliseconds
 
 function useCancelCountdown(orderedAt) {

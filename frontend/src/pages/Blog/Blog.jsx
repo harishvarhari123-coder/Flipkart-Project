@@ -484,7 +484,7 @@ body, #root { background: var(--bg); min-height: 100vh; }
 @media(max-width:600px) { .header{padding:0 1rem;} .layout{padding:1.2rem 1rem 3rem;} .header-right{display:none;} }
 `;
 
-const API = "http://localhost:5000";
+const API = "https://flipkart-project-l2ex.onrender.com";
 const readTime = (t) => Math.max(1, Math.ceil((t||"").trim().split(/\s+/).length / 200));
 const TAG_COLORS = ["terra","sage","amber","plum","sky"];
 const tagColor = (tag) => TAG_COLORS[Math.abs([...tag].reduce((a,c)=>a+c.charCodeAt(0),0)) % TAG_COLORS.length];

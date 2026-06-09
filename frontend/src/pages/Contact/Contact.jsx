@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './Contact.css';
 
-const API_URL = 'http://localhost:5000/api/contact'; // ← change if your server runs elsewhere
+const API_URL = 'https://flipkart-project-l2ex.onrender.com/api/contact'; // ← change if your server runs elsewhere
 
 export default function Contact() {
   const [form, setForm]     = useState({ name: '', email: '', message: '' });

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useAuth } from './AuthContext';
 
 const CartContext = createContext();
-const API = 'http://localhost:5000/api';
+const API = 'https://flipkart-project-l2ex.onrender.com/api';
 
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
